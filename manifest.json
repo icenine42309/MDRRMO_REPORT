@@ -2,7 +2,7 @@
   "name": "MDRRMO Incident Report",
   "short_name": "MDRRMO",
   "description": "Emergency response logging and incident reporting system for MDRRMO Cavinti",
-  "start_url": "./index.html",
+  "start_url": "./https://icenine42309.github.io/MDRRMO_REPORT/ ",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#38bdf8",
