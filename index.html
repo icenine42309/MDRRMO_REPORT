@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="fil" data-theme="dark">
-<head> <!-- Ilagay ito sa loob ng <head> tag ng iyong index.html -->
-<link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#007bff">
-
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cavinti-MDRRMO - INCIDENT REPORT</title>
@@ -1361,16 +1358,6 @@
             showCustomAlert('❌ Please copy manually.', 'NOTICE');
         });
     }
-</script>
-<!-- Ilagay ito bago magsara ang </body> tag -->
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('Service Worker registered! Scope:', reg.scope))
-        .catch(err => console.log('Service Worker registration failed:', err));
-    });
-  }
 </script>
 
 </body>
