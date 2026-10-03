@@ -1,415 +1,455 @@
 <!DOCTYPE html>
-<html lang="fil">
+<html lang="fil" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Care Form - MDRRMO Cavinti</title>
+    <title>Cavinti-MDRRMO - INCIDENT REPORT</title>
     <style>
+        /* THEME VARIABLES */
+        [data-theme="dark"] {
+            --primary: #38bdf8;
+            --primary-light: #0ea5e9;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --field-bg: #111827;
+            --input-bg: #1f2937;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --input-hover: #374151;
+            --table-header: #374151;
+            --save-bg: #064e3b;
+            --save-text: #34d399;
+            --save-border: #059669;
+        }
+
+        [data-theme="light"] {
+            --primary: #0284c7;
+            --primary-light: #0369a1;
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --field-bg: #f8fafc;
+            --input-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #cbd5e1;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning: #d97706;
+            --input-hover: #f1f5f9;
+            --table-header: #e2e8f0;
+            --save-bg: #dcfce7;
+            --save-text: #166534;
+            --save-border: #86efac;
+        }
+
         * {
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
+
         body {
-            background-color: #f4f6f9;
-            padding: 12px;
-            color: #1e293b;
+            background-color: var(--bg-color);
+            padding: 10px;
+            padding-bottom: 70px;
+            color: var(--text-main);
+            transition: background-color 0.2s, color 0.2s;
         }
+
         .container {
-            max-width: 800px;
+            max-width: 820px;
             margin: 0 auto;
-            background: #ffffff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background: var(--card-bg);
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+            transition: background-color 0.2s, border-color 0.2s;
         }
+
         .header {
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+            position: relative;
         }
+
+        .theme-toggle-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--input-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 5px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .theme-toggle-btn:active { opacity: 0.7; }
+
         h2 {
-            color: #1a365d;
-            font-size: 15px;
-            font-weight: bold;
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
             margin-bottom: 2px;
         }
+
         h3 {
-            color: #1a365d;
-            font-size: 13px;
-            font-weight: bold;
-            border-bottom: 2px solid #1a365d;
-            padding-bottom: 4px;
-            margin-bottom: 8px;
+            color: var(--text-main);
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
         }
+
+        .save-indicator {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--save-text);
+            background: var(--save-bg);
+            padding: 3px 8px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-top: 4px;
+            border: 1px solid var(--save-border);
+        }
+
         fieldset {
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            padding: 8px;
-            margin-bottom: 8px;
-            background-color: #fafafa;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: var(--field-bg);
+            transition: background-color 0.2s, border-color 0.2s;
         }
+
         legend {
-            font-weight: bold;
-            color: #1e293b;
-            padding: 0 4px;
+            font-weight: 700;
+            color: var(--primary);
+            padding: 0 6px;
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+
         .form-group {
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
+
         label {
             display: block;
             font-size: 11px;
-            font-weight: bold;
-            margin-bottom: 2px;
-            color: #475569;
+            font-weight: 700;
+            margin-bottom: 3px;
+            color: var(--text-muted);
         }
+
         input[type="text"],
         input[type="number"],
         select,
         textarea {
             width: 100%;
-            padding: 6px 8px;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
             font-size: 12px;
-            background-color: #fff;
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            transition: all 0.2s ease;
         }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+        }
+
         input.dt-trigger {
-            background-color: #fff;
+            background-color: var(--input-hover);
             cursor: pointer;
         }
+
         textarea {
             resize: vertical;
-            min-height: 50px;
+            min-height: 60px;
         }
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-        }
-        .grid-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 6px;
-        }
-        .grid-6 {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 4px;
-        }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+
         .sub-category-title {
-            color: #2563eb;
+            color: var(--primary);
             font-size: 11px;
-            font-weight: bold;
-            margin-top: 4px;
-            margin-bottom: 2px;
+            font-weight: 700;
+            margin-top: 8px;
+            margin-bottom: 4px;
             display: block;
+            border-left: 3px solid var(--primary-light);
+            padding-left: 5px;
         }
+
         .checkbox-group {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
-            gap: 4px;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 5px;
         }
+
         .checkbox-item {
             display: flex;
             align-items: center;
             font-size: 11px;
-            color: #1e293b;
+            color: var(--text-main);
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            padding: 5px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.1s;
         }
+
+        .checkbox-item:hover {
+            background: var(--input-hover);
+        }
+
         .checkbox-item input {
-            margin-right: 4px;
-            width: 13px;
-            height: 13px;
+            margin-right: 6px;
+            width: 14px;
+            height: 14px;
+            accent-color: var(--primary);
+            cursor: pointer;
         }
+
+        .patient-card-header, .companion-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-remove-patient, .btn-remove-companion {
+            background-color: #7f1d1d;
+            color: #fca5a5;
+            border: 1px solid #991b1b;
+            padding: 3px 8px;
+            font-size: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .btn-add-patient, .btn-add-companion {
+            background-color: var(--primary-light);
+            color: #ffffff;
+            border: 1px solid var(--primary);
+            padding: 9px;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .btn-add-patient:hover, .btn-add-companion:hover { opacity: 0.9; }
 
         .action-btns {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .btn-print {
-            background-color: #16a34a;
-            color: white;
-            border: none;
-            padding: 12px;
-            font-size: 13px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 50%;
-        }
-        .btn-report {
-            background-color: #0284c7;
-            color: white;
-            border: none;
-            padding: 12px;
-            font-size: 13px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 50%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+            background: var(--field-bg);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
         }
 
-        /* MESSENGER REPORT BOX */
+        .btn {
+            border: none;
+            padding: 11px;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            transition: opacity 0.2s;
+        }
+        .btn:active { opacity: 0.8; }
+
+        .btn-save-record { background-color: var(--success); color: white; }
+        .btn-report { background-color: var(--primary-light); color: white; }
+        .btn-export { background-color: #0284c7; color: white; }
+        .btn-import { background-color: var(--warning); color: #ffffff; }
+        .btn-print { background-color: #059669; color: white; }
+        .btn-reset { background-color: var(--danger); color: white; grid-column: span 2; }
+
+        .records-section {
+            margin-top: 15px;
+            background: var(--field-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .records-section h4 {
+            font-size: 12px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        .record-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            background: var(--input-bg);
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .record-table th, .record-table td {
+            border-bottom: 1px solid var(--border);
+            padding: 8px;
+            text-align: left;
+            color: var(--text-main);
+        }
+        .record-table th {
+            background-color: var(--table-header);
+        }
+        .btn-sm {
+            padding: 4px 8px;
+            font-size: 10px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        .btn-sm-load { background-color: var(--primary-light); color: white; }
+        .btn-sm-del { background-color: #7f1d1d; color: #fca5a5; }
+
         .report-box {
             display: none;
             margin-top: 15px;
             padding: 12px;
-            border: 2px solid #0284c7;
+            border: 2px solid var(--primary);
             border-radius: 8px;
-            background-color: #f0f9ff;
+            background-color: var(--field-bg);
         }
         .report-box h4 {
-            font-size: 13px;
-            color: #0369a1;
+            font-size: 12px;
+            color: var(--success);
             margin-bottom: 6px;
         }
         .report-box textarea {
-            min-height: 280px;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            font-size: 12px;
-            line-height: 1.4;
-            color: #0f172a;
-            border: 1px solid #bae6fd;
-            padding: 10px;
+            min-height: 220px;
+            font-family: monospace;
+            font-size: 11px;
+            background: var(--input-bg);
+            color: var(--text-main);
+            border-color: var(--border);
         }
         .btn-copy {
-            background-color: #2563eb;
+            background-color: var(--success);
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 10px;
             font-size: 12px;
-            font-weight: bold;
-            border-radius: 5px;
+            font-weight: 700;
+            border-radius: 6px;
             cursor: pointer;
-            margin-top: 6px;
+            margin-top: 8px;
             width: 100%;
         }
 
-        /* CUSTOM DATE & TIME PICKER MODAL STYLES */
         .custom-modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(2px);
             z-index: 10000;
             justify-content: center;
             align-items: center;
         }
         .custom-modal-card {
-            background: #ffffff;
+            background: var(--card-bg);
             width: 90%;
             max-width: 320px;
             border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            padding: 16px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
             text-align: center;
+            color: var(--text-main);
+            border: 1px solid var(--border);
         }
         .custom-modal-title {
-            font-size: 14px;
-            font-weight: bold;
-            color: #1a365d;
-            margin-bottom: 12px;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
             text-transform: uppercase;
         }
         
-        /* CALENDAR STYLES */
         .cal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
-            font-weight: bold;
-            font-size: 13px;
+            font-weight: 700;
+            font-size: 12px;
         }
         .cal-btn {
-            background: #e2e8f0;
+            background: var(--input-hover);
+            color: var(--text-main);
             border: none;
-            padding: 4px 10px;
+            padding: 5px 10px;
             border-radius: 4px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 700;
         }
         .cal-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 4px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
-        .cal-day-label {
-            font-size: 10px;
-            font-weight: bold;
-            color: #64748b;
-            padding: 4px 0;
-        }
-        .cal-cell {
-            padding: 8px 0;
-            font-size: 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            background: #f8fafc;
-        }
-        .cal-cell.selected {
-            background: #0284c7;
-            color: #ffffff;
-            font-weight: bold;
-        }
-        .cal-cell.empty {
-            background: transparent;
-            cursor: default;
-        }
+        .cal-day-label { font-size: 10px; font-weight: 700; color: var(--text-muted); padding: 4px 0; }
+        .cal-cell { padding: 8px 0; font-size: 11px; border-radius: 4px; cursor: pointer; background: var(--input-bg); color: var(--text-main); font-weight: 600; border: 1px solid var(--border); }
+        .cal-cell.selected { background: var(--primary-light); color: #fff; border-color: var(--primary); }
+        .cal-cell.empty { background: transparent; cursor: default; border: none; }
 
-        /* TIME SELECTOR STYLES */
-        .time-select-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            margin: 15px 0;
-        }
-        .time-select-container select {
-            width: 70px;
-            padding: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            text-align: center;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-        }
+        .modal-action-btns { display: flex; gap: 8px; margin-top: 10px; }
+        .btn-modal-ok { flex: 1; background-color: var(--success) !important; color: white !important; border: none; padding: 9px; border-radius: 6px; font-weight: 700; cursor: pointer; }
+        .btn-modal-cancel { flex: 1; background-color: var(--danger) !important; color: white !important; border: none; padding: 9px; border-radius: 6px; font-weight: 700; cursor: pointer; }
 
-        /* MODAL BUTTONS (OK & CANCEL) */
-        .modal-action-btns {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .btn-modal-ok {
-            flex: 1;
-            background-color: #16a34a;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .btn-modal-cancel {
-            flex: 1;
-            background-color: #dc2626;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* PRINT OPTIMIZATION FOR 1 PAGE */
-        @page {
-            size: A4 portrait;
-            margin: 4mm 5mm;
-        }
-
+        @page { size: A4 portrait; margin: 4mm 5mm; }
         @media print {
-            body {
-                background-color: #fff;
-                padding: 0;
-                font-size: 7.5pt;
-                color: #000;
+            body { background-color: #fff; padding: 0; font-size: 7.5pt; color: #000; }
+            .container { box-shadow: none; max-width: 100%; width: 100%; padding: 0; margin: 0; background: #fff; border: none; color: #000; }
+            .header { margin-bottom: 3px; border-bottom: 1px solid #000; }
+            .theme-toggle-btn { display: none !important; }
+            h2 { font-size: 9.5pt; color: #000; }
+            h3 { font-size: 8.5pt; color: #000; margin-bottom: 2px; }
+            fieldset { border: 1px solid #444; background-color: #fff; padding: 2px 4px; margin-bottom: 3px; border-radius: 3px; }
+            legend { font-size: 7pt; color: #000; padding: 0 2px; font-weight: bold; }
+            .form-group { margin-bottom: 1px; }
+            label { font-size: 6.5pt; color: #111; margin-bottom: 1px; }
+            input[type="text"], input[type="number"], select, textarea {
+                padding: 1px 2px; font-size: 7.5pt; border: 1px solid #777; border-radius: 2px; height: 16px; line-height: 16px; background: #fff; color: #000;
             }
-            .container {
-                box-shadow: none;
-                max-width: 100%;
-                width: 100%;
-                padding: 0;
-                margin: 0;
-            }
-            .header {
-                margin-bottom: 3px;
-            }
-            h2 {
-                font-size: 9.5pt;
-                color: #000;
-            }
-            h3 {
-                font-size: 8.5pt;
-                color: #000;
-                border-bottom: 1.5px solid #000;
-                padding-bottom: 1px;
-                margin-bottom: 3px;
-            }
-            fieldset {
-                border: 1px solid #444;
-                background-color: #fff;
-                padding: 2px 4px;
-                margin-bottom: 3px;
-                border-radius: 3px;
-            }
-            legend {
-                font-size: 7pt;
-                color: #000;
-                padding: 0 2px;
-                font-weight: bold;
-            }
-            .form-group {
-                margin-bottom: 1px;
-            }
-            label {
-                font-size: 6.5pt;
-                color: #111;
-                margin-bottom: 1px;
-            }
-            input[type="text"],
-            input[type="number"],
-            select,
-            textarea {
-                padding: 1px 2px;
-                font-size: 7.5pt;
-                border: 1px solid #777;
-                border-radius: 2px;
-                height: 16px;
-                line-height: 16px;
-                background: #fff;
-            }
-            textarea {
-                min-height: 24px;
-                height: 28px;
-            }
-            .sub-category-title {
-                font-size: 7pt;
-                color: #000;
-                margin-top: 1px;
-                margin-bottom: 1px;
-                text-decoration: underline;
-            }
-            .checkbox-group {
-                grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-                gap: 1px;
-            }
-            .checkbox-item {
-                font-size: 6.5pt;
-            }
-            .checkbox-item input {
-                width: 9px;
-                height: 9px;
-                margin-right: 2px;
-            }
-            .action-btns, .report-box, .custom-modal-overlay {
-                display: none !important;
-            }
-            
-            .print-grid-main {
-                display: grid;
-                grid-template-columns: 49% 50%;
-                gap: 1%;
-            }
+            textarea { min-height: 24px; height: 26px; }
+            .sub-category-title { font-size: 7pt; color: #000; margin-top: 1px; margin-bottom: 1px; text-decoration: underline; border-left: none; padding-left: 0; }
+            .checkbox-group { grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 1px; }
+            .checkbox-item { font-size: 6.5pt; background: none; border: none; padding: 0; color: #000; }
+            .checkbox-item input { width: 9px; height: 9px; margin-right: 2px; }
+            .action-btns, .report-box, .custom-modal-overlay, .save-indicator, .records-section, .btn-add-patient, .btn-remove-patient, .btn-add-companion, .btn-remove-companion { display: none !important; }
+            .print-grid-main { display: grid; grid-template-columns: 49% 50%; gap: 1%; }
         }
     </style>
 </head>
@@ -417,15 +457,15 @@
 
 <div class="container">
     <div class="header">
-        <h2>MUNICIPAL DISASTER RISK REDUCTION AND MANAGEMENT OFFICE</h2>
-        <h3>PATIENT CARE FORM</h3>
+        <button type="button" id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+        <h2>MUNICIPAL DISASTER RISK MANAGEMENT OFFICE</h2>
+        <h3>CAVINTI-MDRRMO • INCIDENT REPORT</h3>
+        <span id="autoSaveStatus" class="save-indicator">🟢 Auto-save Active</span>
     </div>
 
     <form id="pcrForm">
         <div class="print-grid-main">
-            <!-- KALIWANG KOLUM -->
             <div class="left-col">
-                <!-- INCIDENT & DISPATCH DATA -->
                 <fieldset>
                     <legend>INCIDENT & DISPATCH DATA</legend>
                     <div class="grid-2">
@@ -434,186 +474,77 @@
                             <input type="text" id="p-date" class="dt-trigger" readonly placeholder="YYYY-MM-DD" onclick="openCustomDatePicker(this)">
                         </div>
                         <div class="form-group">
-                            <label>Patient/Incident No.</label>
+                            <label>Incident No.</label>
                             <input type="text" id="p-no">
                         </div>
                     </div>
                     
-                    <!-- TIME LOGS (MAASIN AT NAKA-ENTER) -->
                     <span class="sub-category-title">Time Logs</span>
                     <div class="grid-2">
                         <div class="form-group">
                             <label>Dispatched</label>
-                            <input type="text" id="t-dispatched" class="dt-trigger" readonly placeholder="--:-- --" onclick="openCustomTimePicker(this)">
+                            <div style="display: flex; gap: 2px;">
+                                <select id="t-dispatched-h" style="padding: 6px 2px;" onchange="updateTime('dispatched')"><option value="">Hr</option></select>
+                                <select id="t-dispatched-m" style="padding: 6px 2px;" onchange="updateTime('dispatched')"><option value="">Min</option></select>
+                                <select id="t-dispatched-ampm" style="padding: 6px 2px;" onchange="updateTime('dispatched')"><option value="">AM/PM</option><option value="AM">AM</option><option value="PM">PM</option></select>
+                            </div>
+                            <input type="text" id="t-dispatched" placeholder="O kaya i-type dito..." style="margin-top: 3px;" oninput="syncTimeInput('dispatched')">
                         </div>
                         <div class="form-group">
-                            <label>Responded</label>
-                            <input type="text" id="t-responded" class="dt-trigger" readonly placeholder="--:-- --" onclick="openCustomTimePicker(this)">
+                            <label>On Scene</label>
+                            <div style="display: flex; gap: 2px;">
+                                <select id="t-onscene-h" style="padding: 6px 2px;" onchange="updateTime('onscene')"><option value="">Hr</option></select>
+                                <select id="t-onscene-m" style="padding: 6px 2px;" onchange="updateTime('onscene')"><option value="">Min</option></select>
+                                <select id="t-onscene-ampm" style="padding: 6px 2px;" onchange="updateTime('onscene')"><option value="">AM/PM</option><option value="AM">AM</option><option value="PM">PM</option></select>
+                            </div>
+                            <input type="text" id="t-onscene" placeholder="O kaya i-type dito..." style="margin-top: 3px;" oninput="syncTimeInput('onscene')">
                         </div>
                     </div>
                     <div class="grid-2">
                         <div class="form-group">
-                            <label>On Scene</label>
-                            <input type="text" id="t-onscene" class="dt-trigger" readonly placeholder="--:-- --" onclick="openCustomTimePicker(this)">
+                            <label>On Health Facility</label>
+                            <div style="display: flex; gap: 2px;">
+                                <select id="t-facility-h" style="padding: 6px 2px;" onchange="updateTime('facility')"><option value="">Hr</option></select>
+                                <select id="t-facility-m" style="padding: 6px 2px;" onchange="updateTime('facility')"><option value="">Min</option></select>
+                                <select id="t-facility-ampm" style="padding: 6px 2px;" onchange="updateTime('facility')"><option value="">AM/PM</option><option value="AM">AM</option><option value="PM">PM</option></select>
+                            </div>
+                            <input type="text" id="t-facility" placeholder="O kaya i-type dito..." style="margin-top: 3px;" oninput="syncTimeInput('facility')">
                         </div>
                         <div class="form-group">
-                            <label>On health Facility</label>
-                            <input type="text" id="t-facility" class="dt-trigger" readonly placeholder="--:-- --" onclick="openCustomTimePicker(this)">
+                            <label>Back to OpCen</label>
+                            <div style="display: flex; gap: 2px;">
+                                <select id="t-backopcen-h" style="padding: 6px 2px;" onchange="updateTime('backopcen')"><option value="">Hr</option></select>
+                                <select id="t-backopcen-m" style="padding: 6px 2px;" onchange="updateTime('backopcen')"><option value="">Min</option></select>
+                                <select id="t-backopcen-ampm" style="padding: 6px 2px;" onchange="updateTime('backopcen')"><option value="">AM/PM</option><option value="AM">AM</option><option value="PM">PM</option></select>
+                            </div>
+                            <input type="text" id="t-backopcen" placeholder="O kaya i-type dito..." style="margin-top: 3px;" oninput="syncTimeInput('backopcen')">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Back to OpCen</label>
-                        <input type="text" id="t-backopcen" class="dt-trigger" readonly placeholder="--:-- --" onclick="openCustomTimePicker(this)">
+
+                    <div class="form-group" style="margin-top: 6px;">
+                        <label>Responded Team</label>
+                        <select id="e-respondedteam">
+                            <option value="">-Select Team-</option>
+                            <option value="Team Alpha">Team Alpha</option>
+                            <option value="Team Bravo">Team Bravo</option>
+                            <option value="Team Charlie">Team Charlie</option>
+                        </select>
                     </div>
 
-                    <div class="form-group" style="margin-top: 4px;">
+                    <div class="form-group" style="margin-top: 6px;">
                         <label>Location of Incident</label>
                         <input type="text" id="p-location">
                     </div>
                 </fieldset>
 
-                <!-- UNANG PASYENTE (PATIENT 1) -->
-                <fieldset>
-                    <legend>PATIENT 1 - PERSONAL INFO & VITALS</legend>
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" id="p1-name" placeholder="Apelyido, Pangalan">
-                    </div>
-                    <div class="grid-3">
-                        <div class="form-group">
-                            <label>Age</label>
-                            <input type="number" id="p1-age">
-                        </div>
-                        <div class="form-group">
-                            <label>Gender</label>
-                            <select id="p1-gender">
-                                <option value="">-Select-</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Birth Date</label>
-                            <input type="text" id="p1-bday" class="dt-trigger" readonly placeholder="YYYY-MM-DD" onclick="openCustomDatePicker(this)">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Address</label>
-                        <input type="text" id="p1-address">
-                    </div>
-                    
-                    <span class="sub-category-title">Vitals & Consciousness (Patient 1)</span>
-                    <div class="form-group">
-                        <div class="checkbox-group" style="grid-template-columns: repeat(4, 1fr);">
-                            <label class="checkbox-item"><input type="checkbox" class="p1-consciousness-cb" value="Alert"> Alert</label>
-                            <label class="checkbox-item"><input type="checkbox" class="p1-consciousness-cb" value="Verbal"> Verbal</label>
-                            <label class="checkbox-item"><input type="checkbox" class="p1-consciousness-cb" value="Pain"> Pain</label>
-                            <label class="checkbox-item"><input type="checkbox" class="p1-consciousness-cb" value="Unresponsive"> Unresp.</label>
-                        </div>
-                    </div>
-                    <div class="grid-6">
-                        <div class="form-group"><label>Time</label><input type="text" id="p1-v-time" class="dt-trigger" readonly placeholder="--:--" onclick="openCustomTimePicker(this)"></div>
-                        <div class="form-group"><label>BP</label><input type="text" id="p1-v-bp" placeholder="120/80"></div>
-                        <div class="form-group"><label>RR</label><input type="text" id="p1-v-rr"></div>
-                        <div class="form-group"><label>PR</label><input type="text" id="p1-v-pr"></div>
-                        <div class="form-group"><label>Temp</label><input type="text" id="p1-v-temp"></div>
-                        <div class="form-group"><label>SPO2</label><input type="text" id="p1-v-spo2"></div>
-                    </div>
-                </fieldset>
-
-                <!-- PANGALAWANG PASYENTE (PATIENT 2) -->
-                <fieldset>
-                    <legend>PATIENT 2 - PERSONAL INFO & VITALS</legend>
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" id="p2-name" placeholder="Apelyido, Pangalan">
-                    </div>
-                    <div class="grid-3">
-                        <div class="form-group">
-                            <label>Age</label>
-                            <input type="number" id="p2-age">
-                        </div>
-                        <div class="form-group">
-                            <label>Gender</label>
-                            <select id="p2-gender">
-                                <option value="">-Select-</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Birth Date</label>
-                            <input type="text" id="p2-bday" class="dt-trigger" readonly placeholder="YYYY-MM-DD" onclick="openCustomDatePicker(this)">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Address</label>
-                        <input type="text" id="p2-address">
-                    </div>
-
-                    <span class="sub-category-title">Vitals & Consciousness (Patient 2)</span>
-                    <div class="form-group">
-                        <div class="checkbox-group" style="grid-template-columns: repeat(4, 1fr);">
-                            <label class="checkbox-item"><input type="checkbox" class="p2-consciousness-cb" value="Alert"> Alert</label>
-                            <label class="checkbox-item"><input type="checkbox" class="p2-consciousness-cb" value="Verbal"> Verbal</label>
-                            <label class="checkbox-item"><input type="checkbox" class="p2-consciousness-cb" value="Pain"> Pain</label>
-                            <label class="checkbox-item"><input type="checkbox" class="p2-consciousness-cb" value="Unresponsive"> Unresp.</label>
-                        </div>
-                    </div>
-                    <div class="grid-6">
-                        <div class="form-group"><label>Time</label><input type="text" id="p2-v-time" class="dt-trigger" readonly placeholder="--:--" onclick="openCustomTimePicker(this)"></div>
-                        <div class="form-group"><label>BP</label><input type="text" id="p2-v-bp" placeholder="120/80"></div>
-                        <div class="form-group"><label>RR</label><input type="text" id="p2-v-rr"></div>
-                        <div class="form-group"><label>PR</label><input type="text" id="p2-v-pr"></div>
-                        <div class="form-group"><label>Temp</label><input type="text" id="p2-v-temp"></div>
-                        <div class="form-group"><label>SPO2</label><input type="text" id="p2-v-spo2"></div>
-                    </div>
-                </fieldset>
+                <div id="patientsContainer"></div>
+                <button type="button" class="btn-add-patient" onclick="addNewPatientSection()">➕ Magdagdag ng Pasyente</button>
             </div>
 
-            <!-- KANANG KOLUM -->
             <div class="right-col">
-                <!-- KASAMA NG PASYENTE (COMPANION DETAILS) -->
-                <fieldset>
-                    <legend>PATIENT COMPANIONS / RELATIVES (KASAMA NG PASYENTE)</legend>
-                    <span class="sub-category-title">Kasama 1</span>
-                    <div class="grid-2">
-                        <div class="form-group"><label>Full Name</label><input type="text" id="c1-name"></div>
-                        <div class="form-group"><label>Relasyon (Kaano-ano)</label><input type="text" id="c1-relation" placeholder="Hal. Asawa, Magulang"></div>
-                    </div>
-                    <div class="grid-3">
-                        <div class="form-group"><label>Age</label><input type="number" id="c1-age"></div>
-                        <div class="form-group">
-                            <label>Sex</label>
-                            <select id="c1-sex">
-                                <option value="">-Select-</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                        </div>
-                        <div class="form-group"><label>Address</label><input type="text" id="c1-address"></div>
-                    </div>
+                <div id="companionsContainer"></div>
+                <button type="button" class="btn-add-companion" onclick="addNewCompanionSection()">➕ Magdagdag ng Companion</button>
 
-                    <span class="sub-category-title">Kasama 2</span>
-                    <div class="grid-2">
-                        <div class="form-group"><label>Full Name</label><input type="text" id="c2-name"></div>
-                        <div class="form-group"><label>Relasyon (Kaano-ano)</label><input type="text" id="c2-relation" placeholder="Hal. Kamag-anak, Kakilala"></div>
-                    </div>
-                    <div class="grid-3">
-                        <div class="form-group"><label>Age</label><input type="number" id="c2-age"></div>
-                        <div class="form-group">
-                            <label>Sex</label>
-                            <select id="c2-sex">
-                                <option value="">-Select-</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                        </div>
-                        <div class="form-group"><label>Address</label><input type="text" id="c2-address"></div>
-                    </div>
-                </fieldset>
-
-                <!-- NATURE AND TYPE OF EVENT -->
                 <fieldset>
                     <legend>NATURE AND TYPE OF EVENT</legend>
                     
@@ -665,6 +596,8 @@
                         <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Convulsion"> Convulsion</label>
                         <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Fever"> Fever</label>
                         <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Low BP"> Low BP</label>
+                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Ambulance Assistance"> Amb. Assist</label>
+                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Transfer"> Transfer</label>
                     </div>
 
                     <span class="sub-category-title">Crime & Disaster</span>
@@ -681,19 +614,17 @@
                         <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Earthquake"> Earthquake</label>
                     </div>
 
-                    <div class="form-group" style="margin-top: 3px;">
+                    <div class="form-group" style="margin-top: 6px;">
                         <label>Others (Specify)</label>
                         <input type="text" id="p-others-nature">
                     </div>
 
-                    <!-- DETAILS / KWENTO NG PANGYAYARI -->
-                    <div class="form-group" style="margin-top: 6px;">
+                    <div class="form-group" style="margin-top: 8px;">
                         <label>Details / Kwento ng Pangyayari</label>
                         <textarea id="p-narrative" placeholder="Isulat dito ang kuwento ng nangyari..."></textarea>
                     </div>
                 </fieldset>
 
-                <!-- ASSESSMENT & INTERVENTIONS -->
                 <fieldset>
                     <legend>ASSESSMENT & INTERVENTIONS</legend>
                     <div class="form-group">
@@ -708,17 +639,26 @@
             </div>
         </div>
 
-        <!-- BOTTOM SECTION: RESPONDERS TEAM -->
-        <fieldset style="margin-top: 2px;">
+        <fieldset style="margin-top: 4px;">
             <legend>RESPONDERS TEAM & VEHICLE DETAILS</legend>
             <div class="grid-2">
                 <div class="form-group"><label>Ambulance / Vehicle Used</label><input type="text" id="e-ambulance"></div>
                 <div class="form-group"><label>Driver</label><input type="text" id="e-driver"></div>
             </div>
             <div class="grid-2">
-                <div class="form-group"><label>Team Leader</label><input type="text" id="e-tl"></div>
-                <div class="form-group"><label>Members</label><input type="text" id="e-members"></div>
+                <div class="form-group"><label>Responder 1</label><input type="text" id="e-tl"></div>
+                <div class="form-group"><label>Responder 2</label><input type="text" id="e-members"></div>
             </div>
+            
+            <div class="form-group">
+                <label>OpCen Duty (Hanggang 3 Responders)</label>
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <input type="text" id="e-opcenduty1" placeholder="Unang OpCen Duty">
+                    <input type="text" id="e-opcenduty2" placeholder="Ikalawang OpCen Duty">
+                    <input type="text" id="e-opcenduty3" placeholder="Ikatlong OpCen Duty">
+                </div>
+            </div>
+
             <div class="form-group">
                 <label>Supplies / Equipment Used</label>
                 <input type="text" id="e-supplies">
@@ -726,20 +666,52 @@
         </fieldset>
 
         <div class="action-btns">
-            <button type="button" class="btn-report" onclick="generateMessengerReport()">📲 GENERATE MESSENGER REPORT</button>
-            <button type="button" class="btn-print" onclick="window.print()">🖨 PRINT / SAVE AS PDF</button>
+            <button type="button" class="btn btn-save-record" onclick="saveToHistoryList()">💾 SAVE</button>
+            <button type="button" class="btn btn-report" onclick="generateMessengerReport()">📲 GENERATE REPORT</button>
+            <button type="button" class="btn btn-export" onclick="exportJsonFile()">📥 DOWNLOAD (.JSON)</button>
+            <button type="button" class="btn btn-import" onclick="document.getElementById('importFileElem').click()">📤 IMPORT (.JSON)</button>
+            <input type="file" id="importFileElem" accept=".json" style="display:none" onchange="importJsonFile(event)">
+            <button type="button" class="btn btn-print" onclick="window.print()">🖨 PRINT / PDF</button>
+            <button type="button" class="btn btn-reset" onclick="clearSavedData()">🗑️ NEW FORM</button>
         </div>
 
-        <!-- AUTOMATIC MESSENGER REPORT OUTPUT BOX -->
         <div id="messengerReportBox" class="report-box">
-            <h4>📋 Messenger Summary Report (Ready to Copy)</h4>
+            <h4>📋 Messenger Summary Report</h4>
             <textarea id="messengerText" readonly></textarea>
             <button type="button" class="btn-copy" onclick="copyToMessenger()">📋 COPY FOR MESSENGER</button>
+        </div>
+
+        <div class="records-section">
+            <h4>📁 Saved Records History</h4>
+            <table class="record-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Incident #</th>
+                        <th>Patient Name</th>
+                        <th>Aksyon</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Walang naka-save na record.</td></tr>
+                </tbody>
+            </table>
         </div>
     </form>
 </div>
 
-<!-- CUSTOM DATE PICKER MODAL -->
+<!-- MODALS -->
+<div id="msgModalOverlay" class="custom-modal-overlay">
+    <div class="custom-modal-card">
+        <div id="msgModalTitle" class="custom-modal-title">KOMPIRMASYON</div>
+        <div id="msgModalBody" style="font-size: 12px; margin-bottom: 15px; line-height: 1.4; white-space: pre-line;"></div>
+        <div class="modal-action-btns">
+            <button type="button" id="msgModalCancelBtn" class="btn-modal-cancel" onclick="closeMsgModal(false)">CANCEL</button>
+            <button type="button" id="msgModalOkBtn" class="btn-modal-ok" onclick="closeMsgModal(true)">OK</button>
+        </div>
+    </div>
+</div>
+
 <div id="dateModalOverlay" class="custom-modal-overlay">
     <div class="custom-modal-card">
         <div class="custom-modal-title">SELECT DATE</div>
@@ -756,30 +728,56 @@
     </div>
 </div>
 
-<!-- CUSTOM TIME PICKER MODAL -->
-<div id="timeModalOverlay" class="custom-modal-overlay">
-    <div class="custom-modal-card">
-        <div class="custom-modal-title">SELECT TIME</div>
-        <div class="time-select-container">
-            <select id="timeHour"></select>
-            <span>:</span>
-            <select id="timeMinute"></select>
-            <select id="timeAmpm">
-                <option value="AM">AM</option>
-                <option value="PM">PM</option>
-            </select>
-        </div>
-        <div class="modal-action-btns">
-            <button type="button" class="btn-modal-cancel" onclick="closeTimePicker(true)">CANCEL</button>
-            <button type="button" class="btn-modal-ok" onclick="confirmTimePicker()">OK</button>
-        </div>
-    </div>
-</div>
-
 <script>
-    let activeInputTarget = null;
+    function toggleTheme() {
+        const html = document.documentElement;
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('mdrrmo_theme', newTheme);
+        updateThemeButtonText(newTheme);
+    }
 
-    // --- CUSTOM DATE PICKER LOGIC ---
+    function updateThemeButtonText(theme) {
+        const btn = document.getElementById('themeToggleBtn');
+        if (btn) {
+            btn.innerText = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+        }
+    }
+
+    function loadSavedTheme() {
+        const savedTheme = localStorage.getItem('mdrrmo_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeButtonText(savedTheme);
+    }
+
+    let activeInputTarget = null;
+    let msgModalCallback = null;
+
+    function showCustomConfirm(message, title, onConfirm) {
+        document.getElementById('msgModalTitle').innerText = title || "KOMPIRMASYON";
+        document.getElementById('msgModalBody').innerText = message;
+        document.getElementById('msgModalCancelBtn').style.display = 'block';
+        document.getElementById('msgModalOkBtn').style.display = 'block';
+        msgModalCallback = onConfirm;
+        document.getElementById('msgModalOverlay').style.display = 'flex';
+    }
+
+    function showCustomAlert(message, title) {
+        document.getElementById('msgModalTitle').innerText = title || "ANUNSYO";
+        document.getElementById('msgModalBody').innerText = message;
+        document.getElementById('msgModalCancelBtn').style.display = 'none';
+        document.getElementById('msgModalOkBtn').style.display = 'block';
+        msgModalCallback = null;
+        document.getElementById('msgModalOverlay').style.display = 'flex';
+    }
+
+    function closeMsgModal(isOk) {
+        document.getElementById('msgModalOverlay').style.display = 'none';
+        if (isOk && typeof msgModalCallback === 'function') msgModalCallback();
+        msgModalCallback = null;
+    }
+
     let currDate = new Date();
     let selectedDateStr = "";
 
@@ -794,15 +792,12 @@
         const calGrid = document.getElementById('calGrid');
         const calMonthYear = document.getElementById('calMonthYear');
         calGrid.innerHTML = '';
-
         const year = currDate.getFullYear();
         const month = currDate.getMonth();
-
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         calMonthYear.innerText = `${monthNames[month]} ${year}`;
 
-        const dayLabels = ["S", "M", "T", "W", "T", "F", "S"];
-        dayLabels.forEach(d => {
+        ["S", "M", "T", "W", "T", "F", "S"].forEach(d => {
             const lbl = document.createElement('div');
             lbl.className = 'cal-day-label';
             lbl.innerText = d;
@@ -813,16 +808,15 @@
         const totalDays = new Date(year, month + 1, 0).getDate();
 
         for (let i = 0; i < firstDay; i++) {
-            const emptyCell = document.createElement('div');
-            emptyCell.className = 'cal-cell empty';
-            calGrid.appendChild(emptyCell);
+            const empty = document.createElement('div');
+            empty.className = 'cal-cell empty';
+            calGrid.appendChild(empty);
         }
 
         for (let d = 1; d <= totalDays; d++) {
             const cell = document.createElement('div');
             cell.className = 'cal-cell';
             cell.innerText = d;
-            
             let mStr = (month + 1).toString().padStart(2, '0');
             let dStr = d.toString().padStart(2, '0');
             let dateVal = `${year}-${mStr}-${dStr}`;
@@ -837,282 +831,531 @@
                 cell.classList.add('selected');
                 selectedDateStr = dateVal;
             };
-
             calGrid.appendChild(cell);
         }
     }
 
-    function prevMonth() {
-        currDate.setMonth(currDate.getMonth() - 1);
-        renderCalendar();
-    }
-
-    function nextMonth() {
-        currDate.setMonth(currDate.getMonth() + 1);
-        renderCalendar();
-    }
-
+    function prevMonth() { currDate.setMonth(currDate.getMonth() - 1); renderCalendar(); }
+    function nextMonth() { currDate.setMonth(currDate.getMonth() + 1); renderCalendar(); }
     function confirmDatePicker() {
         if (activeInputTarget && selectedDateStr) {
             activeInputTarget.value = selectedDateStr;
+            autoSaveData();
         }
         closeDatePicker(false);
     }
-
     function closeDatePicker(isCancel) {
-        if (isCancel && activeInputTarget) {
-            activeInputTarget.value = "";
-        }
+        if (isCancel && activeInputTarget) activeInputTarget.value = "";
         document.getElementById('dateModalOverlay').style.display = 'none';
         activeInputTarget = null;
         selectedDateStr = "";
     }
 
-
-    // --- CUSTOM TIME PICKER LOGIC ---
-    function initTimePickerOptions() {
-        const hSelect = document.getElementById('timeHour');
-        const mSelect = document.getElementById('timeMinute');
-        hSelect.innerHTML = '';
-        mSelect.innerHTML = '';
-
-        for (let h = 1; h <= 12; h++) {
-            let val = h.toString().padStart(2, '0');
-            hSelect.innerHTML += `<option value="${val}">${val}</option>`;
-        }
-        for (let m = 0; m < 60; m += 5) {
-            let val = m.toString().padStart(2, '0');
-            mSelect.innerHTML += `<option value="${val}">${val}</option>`;
-        }
-    }
-    initTimePickerOptions();
-
-    function openCustomTimePicker(inputElem) {
-        activeInputTarget = inputElem;
-        document.getElementById('timeModalOverlay').style.display = 'flex';
+    function populateTimeSelectors() {
+        const timeFields = ['dispatched', 'onscene', 'facility', 'backopcen'];
+        timeFields.forEach(f => {
+            let hSel = document.getElementById(`t-${f}-h`);
+            let mSel = document.getElementById(`t-${f}-m`);
+            if (hSel && hSel.options.length <= 1) {
+                for (let h = 1; h <= 12; h++) {
+                    hSel.innerHTML += `<option value="${h}">${h}</option>`;
+                }
+            }
+            if (mSel && mSel.options.length <= 1) {
+                for (let m = 0; m < 60; m++) {
+                    let mStr = m.toString().padStart(2, '0');
+                    mSel.innerHTML += `<option value="${mStr}">${mStr}</option>`;
+                }
+            }
+        });
     }
 
-    function confirmTimePicker() {
-        if (activeInputTarget) {
-            const h = document.getElementById('timeHour').value;
-            const m = document.getElementById('timeMinute').value;
-            const ampm = document.getElementById('timeAmpm').value;
-            activeInputTarget.value = `${h}:${m} ${ampm}`;
+    function updateTime(fieldKey) {
+        let h = document.getElementById(`t-${fieldKey}-h`).value;
+        let m = document.getElementById(`t-${fieldKey}-m`).value;
+        let ampm = document.getElementById(`t-${fieldKey}-ampm`).value;
+        let textInput = document.getElementById(`t-${fieldKey}`);
+        
+        if (h && m && ampm) {
+            textInput.value = `${h}:${m} ${ampm}`;
+        } else if (h && m) {
+            textInput.value = `${h}:${m}`;
         }
-        closeTimePicker(false);
+        autoSaveData();
     }
 
-    function closeTimePicker(isCancel) {
-        if (isCancel && activeInputTarget) {
-            activeInputTarget.value = "";
-        }
-        document.getElementById('timeModalOverlay').style.display = 'none';
-        activeInputTarget = null;
+    function syncTimeInput(fieldKey) {
+        let textVal = document.getElementById(`t-${fieldKey}`).value.trim();
+        autoSaveData();
     }
 
+    let patientCount = 0;
+    function createPatientHtml(idNum, data = {}) {
+        const fieldset = document.createElement('fieldset');
+        fieldset.className = 'patient-fieldset';
+        fieldset.setAttribute('data-patient-id', idNum);
+        let removeBtnHtml = idNum > 1 ? `<button type="button" class="btn-remove-patient" onclick="removePatientSection(this)">🗑️ Tanggalin</button>` : '';
 
-    // --- NARRATIVE CAPITALIZATION & MESSENGER REPORT ---
+        let ageOptions = '<option value="">-Select Age-</option>';
+        for (let a = 1; a <= 100; a++) {
+            let sel = (data[`p${idNum}-age`] == a) ? 'selected' : '';
+            ageOptions += `<option value="${a}" ${sel}>${a} yo</option>`;
+        }
+
+        let currentYear = new Date().getFullYear();
+        let bdayVal = data[`p${idNum}-bday`] || '';
+        let [by = '', bm = '', bd = ''] = bdayVal ? bdayVal.split('-') : [];
+
+        let yearOptions = '<option value="">Taon (Year)</option>';
+        for (let y = currentYear; y >= currentYear - 100; y--) {
+            let sel = (by == y) ? 'selected' : '';
+            yearOptions += `<option value="${y}" ${sel}>${y}</option>`;
+        }
+
+        let monthOptions = '<option value="">Buwan (Month)</option>';
+        const monthsList = [
+            {v: '01', n: 'January (01)'}, {v: '02', n: 'February (02)'}, {v: '03', n: 'March (03)'}, {v: '04', n: 'April (04)'},
+            {v: '05', n: 'May (05)'}, {v: '06', n: 'June (06)'}, {v: '07', n: 'July (07)'}, {v: '08', n: 'August (08)'},
+            {v: '09', n: 'September (09)'}, {v: '10', n: 'October (10)'}, {v: '11', n: 'November (11)'}, {v: '12', n: 'December (12)'}
+        ];
+        monthsList.forEach(m => {
+            let sel = (bm == m.v) ? 'selected' : '';
+            monthOptions += `<option value="${m.v}" ${sel}>${m.n}</option>`;
+        });
+
+        let dayOptions = '<option value="">Araw (Day)</option>';
+        for (let d = 1; d <= 31; d++) {
+            let dStr = d.toString().padStart(2, '0');
+            let sel = (bd == dStr) ? 'selected' : '';
+            dayOptions += `<option value="${dStr}" ${sel}>${dStr}</option>`;
+        }
+
+        fieldset.innerHTML = `
+            <legend>
+                <div class="patient-card-header">
+                    <span>PATIENT ${idNum} - INFO & VITALS</span>
+                    ${removeBtnHtml}
+                </div>
+            </legend>
+            <div class="form-group"><label>Full Name</label><input type="text" id="p${idNum}-name" value="${data[`p${idNum}-name`] || ''}" placeholder="Apelyido, Pangalan"></div>
+            <div class="grid-2">
+                <div class="form-group"><label>Age</label><select id="p${idNum}-age">${ageOptions}</select></div>
+                <div class="form-group"><label>Gender</label><select id="p${idNum}-gender"><option value="">-Select-</option><option value="Male" ${data[`p${idNum}-gender`] === 'Male' ? 'selected' : ''}>Male</option><option value="Female" ${data[`p${idNum}-gender`] === 'Female' ? 'selected' : ''}>Female</option></select></div>
+            </div>
+
+            <div class="form-group" style="background: var(--input-bg); padding: 8px; border-radius: 6px; border: 1px solid var(--border); margin-top: 6px;">
+                <label style="color: var(--primary); font-size: 11px; margin-bottom: 3px;">Birth Date (Year, Month, Day):</label>
+                <div style="display: grid; grid-template-columns: 1.2fr 1.5fr 1fr; gap: 4px;">
+                    <select id="p${idNum}-bday-y" style="padding: 6px 4px; font-size: 11px; font-weight: 600;" onchange="updateBday(${idNum})">${yearOptions}</select>
+                    <select id="p${idNum}-bday-m" style="padding: 6px 4px; font-size: 11px; font-weight: 600;" onchange="updateBday(${idNum})">${monthOptions}</select>
+                    <select id="p${idNum}-bday-d" style="padding: 6px 4px; font-size: 11px; font-weight: 600;" onchange="updateBday(${idNum})">${dayOptions}</select>
+                </div>
+                <input type="hidden" id="p${idNum}-bday" value="${bdayVal}">
+            </div>
+
+            <div class="form-group" style="margin-top: 6px;"><label>Address</label><input type="text" id="p${idNum}-address" value="${data[`p${idNum}-address`] || ''}"></div>
+
+            <span class="sub-category-title">Vitals & Consciousness</span>
+            <div class="form-group">
+                <div class="checkbox-group" style="grid-template-columns: repeat(4, 1fr);">
+                    <label class="checkbox-item"><input type="checkbox" class="p${idNum}-consciousness-cb" value="Alert"> Alert</label>
+                    <label class="checkbox-item"><input type="checkbox" class="p${idNum}-consciousness-cb" value="Verbal"> Verbal</label>
+                    <label class="checkbox-item"><input type="checkbox" class="p${idNum}-consciousness-cb" value="Pain"> Pain</label>
+                    <label class="checkbox-item"><input type="checkbox" class="p${idNum}-consciousness-cb" value="Unresponsive"> Unresp.</label>
+                </div>
+            </div>
+            <div class="grid-6">
+                <div class="form-group"><label>Time</label><input type="text" id="p${idNum}-v-time" value="${data[`p${idNum}-v-time`] || ''}" placeholder="--:--"></div>
+                <div class="form-group"><label>BP</label><input type="text" id="p${idNum}-v-bp" value="${data[`p${idNum}-v-bp`] || ''}" placeholder="120/80"></div>
+                <div class="form-group"><label>RR</label><input type="text" id="p${idNum}-v-rr" value="${data[`p${idNum}-v-rr`] || ''}"></div>
+                <div class="form-group"><label>PR</label><input type="text" id="p${idNum}-v-pr" value="${data[`p${idNum}-v-pr`] || ''}"></div>
+                <div class="form-group"><label>Temp</label><input type="text" id="p${idNum}-v-temp" value="${data[`p${idNum}-v-temp`] || ''}"></div>
+                <div class="form-group"><label>SPO2</label><input type="text" id="p${idNum}-v-spo2" value="${data[`p${idNum}-v-spo2`] || ''}"></div>
+            </div>
+        `;
+        return fieldset;
+    }
+
+    function updateBday(idNum) {
+        let y = document.getElementById(`p${idNum}-bday-y`).value;
+        let m = document.getElementById(`p${idNum}-bday-m`).value;
+        let d = document.getElementById(`p${idNum}-bday-d`).value;
+        let hiddenInput = document.getElementById(`p${idNum}-bday`);
+        if (y && m && d) {
+            hiddenInput.value = `${y}-${m}-${d}`;
+        } else {
+            hiddenInput.value = '';
+        }
+        autoSaveData();
+    }
+
+    function addNewPatientSection(data = {}) {
+        patientCount++;
+        document.getElementById('patientsContainer').appendChild(createPatientHtml(patientCount, data));
+    }
+
+    function removePatientSection(btn) {
+        showCustomConfirm('Sigurado ka bang tanggalin ang pasyenteng ito?', 'TANGGALIN', () => {
+            btn.closest('fieldset').remove();
+            reindexPatients();
+            autoSaveData();
+        });
+    }
+
+    function reindexPatients() {
+        const fieldsets = document.querySelectorAll('#patientsContainer .patient-fieldset');
+        patientCount = 0;
+        fieldsets.forEach((fs, index) => {
+            const newId = index + 1;
+            patientCount = newId;
+            fs.setAttribute('data-patient-id', newId);
+            fs.querySelector('legend').innerHTML = `<div class="patient-card-header"><span>PATIENT ${newId} - INFO & VITALS</span>${newId > 1 ? '<button type="button" class="btn-remove-patient" onclick="removePatientSection(this)">🗑️ Tanggalin</button>' : ''}</div>`;
+            fs.querySelectorAll('input, select').forEach(input => {
+                let parts = input.id.split('-');
+                if (parts.length > 1) { 
+                    parts[0] = `p${newId}`; 
+                    input.id = parts.join('-'); 
+                }
+                if (input.className.includes('-consciousness-cb')) input.className = `p${newId}-consciousness-cb`;
+            });
+        });
+    }
+
+    let companionCount = 0;
+    function createCompanionHtml(idNum, data = {}) {
+        const fieldset = document.createElement('fieldset');
+        fieldset.className = 'companion-fieldset';
+        fieldset.setAttribute('data-companion-id', idNum);
+        let removeBtnHtml = idNum > 1 ? `<button type="button" class="btn-remove-companion" onclick="removeCompanionSection(this)">🗑 Tanggalin</button>` : '';
+
+        let ageOptions = '<option value="">-Select Age-</option>';
+        for (let a = 1; a <= 100; a++) {
+            let sel = (data[`c${idNum}-age`] == a) ? 'selected' : '';
+            ageOptions += `<option value="${a}" ${sel}>${a} yo</option>`;
+        }
+
+        fieldset.innerHTML = `
+            <legend>
+                <div class="companion-card-header">
+                    <span>COMPANION ${idNum}</span>
+                    ${removeBtnHtml}
+                </div>
+            </legend>
+            <div class="grid-2">
+                <div class="form-group"><label>Full Name</label><input type="text" id="c${idNum}-name" value="${data[`c${idNum}-name`] || ''}"></div>
+                <div class="form-group"><label>Relasyon</label><input type="text" id="c${idNum}-relation" value="${data[`c${idNum}-relation`] || ''}" placeholder="Hal. Asawa"></div>
+            </div>
+            <div class="grid-3">
+                <div class="form-group"><label>Age</label><select id="c${idNum}-age">${ageOptions}</select></div>
+                <div class="form-group"><label>Sex</label><select id="c${idNum}-sex"><option value="">-Select-</option><option value="Male" ${data[`c${idNum}-sex`] === 'Male' ? 'selected' : ''}>Male</option><option value="Female" ${data[`c${idNum}-sex`] === 'Female' ? 'selected' : ''}>Female</option></select></div>
+                <div class="form-group"><label>Address</label><input type="text" id="c${idNum}-address" value="${data[`c${idNum}-address`] || ''}"></div>
+            </div>
+        `;
+        return fieldset;
+    }
+
+    function addNewCompanionSection(data = {}) {
+        companionCount++;
+        document.getElementById('companionsContainer').appendChild(createCompanionHtml(companionCount, data));
+    }
+
+    function removeCompanionSection(btn) {
+        showCustomConfirm('Sigurado ka bang tanggalin ang companion na ito?', 'TANGGALIN', () => {
+            btn.closest('fieldset').remove();
+            reindexCompanions();
+            autoSaveData();
+        });
+    }
+
+    function reindexCompanions() {
+        const fieldsets = document.querySelectorAll('#companionsContainer .companion-fieldset');
+        companionCount = 0;
+        fieldsets.forEach((fs, index) => {
+            const newId = index + 1;
+            companionCount = newId;
+            fs.setAttribute('data-companion-id', newId);
+            fs.querySelector('legend').innerHTML = `<div class="companion-card-header"><span>COMPANION ${newId}</span>${newId > 1 ? '<button type="button" class="btn-remove-companion" onclick="removeCompanionSection(this)">🗑 Tanggalin</button>' : ''}</div>`;
+            fs.querySelectorAll('input, select').forEach(input => {
+                let parts = input.id.split('-');
+                if (parts.length > 1) { parts[0] = `c${newId}`; input.id = parts.join('-'); }
+            });
+        });
+    }
+
+    function getFormDataObject() {
+        const formData = {};
+        document.querySelectorAll('#pcrForm input[type="text"], #pcrForm input[type="number"], #pcrForm select, #pcrForm textarea, #pcrForm input[type="hidden"]').forEach(el => {
+            if (el.id) formData[el.id] = el.value;
+        });
+        const checkboxes = {};
+        document.querySelectorAll('#pcrForm input[type="checkbox"]').forEach((cb, idx) => {
+            checkboxes[cb.id || `${cb.className}_${cb.value}_${idx}`] = cb.checked;
+        });
+        formData._checkboxes = checkboxes;
+        formData._patientCount = patientCount;
+        formData._companionCount = companionCount;
+        return formData;
+    }
+
+    function populateFormFromObject(formData) {
+        if (!formData) return;
+        const pContainer = document.getElementById('patientsContainer');
+        pContainer.innerHTML = ''; patientCount = 0;
+        for (let i = 1; i <= (formData._patientCount || 1); i++) addNewPatientSection(formData);
+
+        const cContainer = document.getElementById('companionsContainer');
+        cContainer.innerHTML = ''; companionCount = 0;
+        for (let i = 1; i <= (formData._companionCount || 1); i++) addNewCompanionSection(formData);
+
+        document.querySelectorAll('#pcrForm input[type="text"], #pcrForm input[type="number"], #pcrForm select, #pcrForm textarea, #pcrForm input[type="hidden"]').forEach(el => {
+            if (el.id && formData[el.id] !== undefined) el.value = formData[el.id];
+        });
+
+        for (let i = 1; i <= (formData._patientCount || 1); i++) {
+            let bdayVal = document.getElementById(`p${i}-bday`)?.value;
+            if (bdayVal) {
+                let [y, m, d] = bdayVal.split('-');
+                if (y) document.getElementById(`p${i}-bday-y`).value = y;
+                if (m) document.getElementById(`p${i}-bday-m`).value = m;
+                if (d) document.getElementById(`p${i}-bday-d`).value = d;
+            }
+        }
+
+        if (formData._checkboxes) {
+            document.querySelectorAll('#pcrForm input[type="checkbox"]').forEach((cb, idx) => {
+                let key = cb.id || `${cb.className}_${cb.value}_${idx}`;
+                if (formData._checkboxes[key] !== undefined) cb.checked = formData._checkboxes[key];
+            });
+        }
+    }
+
+    function autoSaveData() {
+        localStorage.setItem('mdrrmo_pcr_draft', JSON.stringify(getFormDataObject()));
+        const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const statusEl = document.getElementById('autoSaveStatus');
+        if (statusEl) statusEl.innerText = `🟢 Auto-saved (${timeStr})`;
+    }
+
+    function loadFromPhone() {
+        loadSavedTheme();
+        populateTimeSelectors();
+        const saved = localStorage.getItem('mdrrmo_pcr_draft');
+        if (saved) {
+            try { populateFormFromObject(JSON.parse(saved)); } catch (e) { console.error(e); }
+        } else {
+            addNewPatientSection();
+            addNewCompanionSection();
+        }
+        renderHistoryTable();
+    }
+
+    function clearSavedData() {
+        showCustomConfirm('Gusto mo bang linisin ang form para sa bagong entry?', 'BAGONG FORM', () => {
+            localStorage.removeItem('mdrrmo_pcr_draft');
+            document.getElementById('pcrForm').reset();
+            document.getElementById('patientsContainer').innerHTML = '';
+            document.getElementById('companionsContainer').innerHTML = '';
+            patientCount = 0; companionCount = 0;
+            addNewPatientSection(); addNewCompanionSection();
+            document.getElementById('messengerReportBox').style.display = 'none';
+        });
+    }
+
+    function getHistoryList() { const list = localStorage.getItem('mdrrmo_pcr_history'); return list ? JSON.parse(list) : []; }
+
+    function saveToHistoryList() {
+        const formData = getFormDataObject();
+        const history = getHistoryList();
+        history.unshift({ id: Date.now().toString(), date: formData['p-date'] || 'No Date', pNo: formData['p-no'] || 'No Inc. #', pName: formData['p1-name'] || 'Unnamed', data: formData });
+        localStorage.setItem('mdrrmo_pcr_history', JSON.stringify(history));
+        renderHistoryTable();
+        showCustomAlert('✅ Naka-save na sa History List!', 'SUCCESS');
+    }
+
+    function renderHistoryTable() {
+        const history = getHistoryList();
+        const tbody = document.getElementById('historyTableBody');
+        tbody.innerHTML = '';
+        if (history.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Walang naka-save na record.</td></tr>`;
+            return;
+        }
+        history.forEach(rec => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${rec.date}</td><td>${rec.pNo}</td><td>${rec.pName}</td><td><button type="button" class="btn-sm btn-sm-load" onclick="loadHistoryRecord('${rec.id}')">📂 Edit</button> <button type="button" class="btn-sm btn-sm-del" onclick="deleteHistoryRecord('${rec.id}')">🗑</button></td>`;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function loadHistoryRecord(id) {
+        const rec = getHistoryList().find(r => r.id === id);
+        if (rec) { populateFormFromObject(rec.data); autoSaveData(); window.scrollTo({ top: 0, behavior: 'smooth' }); showCustomAlert(`📂 Na-load ang record ni: ${rec.pName}`, 'LOADED'); }
+    }
+
+    function deleteHistoryRecord(id) {
+        showCustomConfirm('Burahin ang record na ito sa listahan?', 'BURAHIN', () => {
+            localStorage.setItem('mdrrmo_pcr_history', JSON.stringify(getHistoryList().filter(r => r.id !== id)));
+            renderHistoryTable();
+        });
+    }
+
+    function exportJsonFile() {
+        const formData = getFormDataObject();
+        const blob = new Blob([JSON.stringify(formData, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `PCR_${formData['p-date'] || 'Data'}_${(formData['p1-name'] || 'Patient').replace(/[^a-zA-Z0-9]/g, '_')}.json`;
+        a.click();
+    }
+
+    function importJsonFile(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try { populateFormFromObject(JSON.parse(e.target.result)); autoSaveData(); showCustomAlert('✅ Na-import na ang file!', 'SUCCESS'); }
+            catch (err) { showCustomAlert('❌ Error: Invalid PCR JSON file.', 'ERROR'); }
+        };
+        reader.readAsText(file);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        loadFromPhone();
+        setInterval(autoSaveData, 5000);
+    });
+
     function autoFormatStory(text) {
         if (!text) return '';
-        let cleaned = text.trim().replace(/[ \t]+/g, ' ').replace(/\n\s*\n/g, '\n');
-        return cleaned.replace(/(^\s*|[.!?]\s+)([a-z])/g, (match, separator, char) => separator + char.toUpperCase());
+        return text.trim().replace(/[ \t]+/g, ' ').replace(/\n\s*\n/g, '\n').replace(/(^\s*|[.!?]\s+)([a-z])/g, (m, s, c) => s + c.toUpperCase());
     }
 
     function generateMessengerReport() {
         const date = document.getElementById('p-date').value.trim();
         const pNo = document.getElementById('p-no').value.trim();
-        
-        const dispatched = document.getElementById('t-dispatched').value.trim();
-        const responded = document.getElementById('t-responded').value.trim();
-        const onscene = document.getElementById('t-onscene').value.trim();
-        const facility = document.getElementById('t-facility').value.trim();
-        const backopcen = document.getElementById('t-backopcen').value.trim();
         const location = document.getElementById('p-location').value.trim();
 
         let blocks = [];
-
-        // 1. NATURE OF EVENT & DYNAMIC TITLE DETERMINATION
         let natureList = [];
         document.querySelectorAll('.nature-cb:checked').forEach(cb => natureList.push(cb.value));
         const othersNature = document.getElementById('p-others-nature').value.trim();
         if (othersNature) natureList.push(othersNature);
 
-        let isAccident = natureList.some(n => {
-            let val = n.toLowerCase();
-            return val.includes('accident') || val.includes('hit & run') || val.includes('pedestrian');
-        });
-
-        let reportTitle = isAccident ? "VEHICULAR ACCIDENT REPORT" : "MEDICAL REPORT";
-
-        // HEADER
+        let reportTitle = natureList.some(n => n.toLowerCase().includes('accident')) ? "VEHICULAR ACCIDENT REPORT" : "MEDICAL REPORT";
         let headerText = reportTitle;
         let meta = [];
         if (date) meta.push(`Date: ${date}`);
         if (pNo) meta.push(`Report No: ${pNo}`);
-        if (meta.length > 0) {
-            headerText += `\n${meta.join(' | ')}`;
-        }
+        if (meta.length > 0) headerText += `\n${meta.join(' | ')}`;
         blocks.push(headerText);
 
-        // 2. TIME LOGS & LOCATION (NAKA-ENTER BAWAT TIME LOG)
         let timeArr = [];
-        if (dispatched) timeArr.push(`  • Dispatched: ${dispatched}`);
-        if (responded) timeArr.push(`  • Responded: ${responded}`);
-        if (onscene) timeArr.push(`  • On Scene: ${onscene}`);
-        if (facility) timeArr.push(`  • On health Facility: ${facility}`);
-        if (backopcen) timeArr.push(`  • Back to OpCen: ${backopcen}`);
+        let dispatchedVal = document.getElementById(`t-dispatched`).value.trim();
+        if (dispatchedVal) timeArr.push(`  • Dispatched: ${dispatchedVal}`);
+        
+        ['onscene', 'facility', 'backopcen'].forEach(t => {
+            let val = document.getElementById(`t-${t}`).value.trim();
+            if (val) timeArr.push(`  • ${t.charAt(0).toUpperCase() + t.slice(1)}: ${val}`);
+        });
 
-        let timeLocText = "";
-        if (timeArr.length > 0) {
-            timeLocText += `⏰ Time Logs:\n` + timeArr.join('\n');
+        let respondedTeamVal = document.getElementById(`e-respondedteam`).value.trim();
+        if (respondedTeamVal) timeArr.push(`  • Responded Team: ${respondedTeamVal}`);
+
+        if (timeArr.length > 0 || location) {
+            let tText = timeArr.length > 0 ? `⏰ Time & Team Logs:\n` + timeArr.join('\n') : '';
+            if (location) tText += (tText ? `\n` : '') + `📍 Location: ${location}`;
+            blocks.push(tText);
         }
-        if (location) {
-            if (timeLocText) timeLocText += `\n`;
-            timeLocText += `📍 Location: ${location}`;
-        }
-        if (timeLocText) blocks.push(timeLocText);
 
-        // 3. PATIENT DETAILS
-        function getPatientBlock(prefix, title) {
-            const name = document.getElementById(`${prefix}-name`).value.trim();
-            if (!name) return "";
-
-            const age = document.getElementById(`${prefix}-age`).value.trim();
-            const gender = document.getElementById(`${prefix}-gender`).value.trim();
-            const bday = document.getElementById(`${prefix}-bday`).value.trim();
-            const address = document.getElementById(`${prefix}-address`).value.trim();
-
-            let locList = [];
-            document.querySelectorAll(`.${prefix}-consciousness-cb:checked`).forEach(cb => locList.push(cb.value));
-
-            const bp = document.getElementById(`${prefix}-v-bp`).value.trim();
-            const pr = document.getElementById(`${prefix}-v-pr`).value.trim();
-            const rr = document.getElementById(`${prefix}-v-rr`).value.trim();
-            const spo2 = document.getElementById(`${prefix}-v-spo2`).value.trim();
-            const temp = document.getElementById(`${prefix}-v-temp`).value.trim();
-            const vTime = document.getElementById(`${prefix}-v-time`).value.trim();
-
-            let pLines = [];
-            let mainInfo = `👤 ${title}: ${name}`;
-            let subInfo = [];
-            if (age) subInfo.push(`${age}yo`);
-            if (gender) subInfo.push(gender);
-            if (subInfo.length > 0) mainInfo += ` (${subInfo.join(', ')})`;
-            pLines.push(mainInfo);
-
+        for (let i = 1; i <= patientCount; i++) {
+            const name = document.getElementById(`p${i}-name`)?.value.trim();
+            if (!name) continue;
+            let pLines = [`👤 Patient ${i}: ${name} (${document.getElementById(`p${i}-age`).value.trim()}, ${document.getElementById(`p${i}-gender`).value.trim()})`];
+            const bday = document.getElementById(`p${i}-bday`).value.trim();
+            const address = document.getElementById(`p${i}-address`).value.trim();
             if (bday) pLines.push(`• Birthdate: ${bday}`);
             if (address) pLines.push(`• Address: ${address}`);
 
+            let locList = [];
+            document.querySelectorAll(`.p${i}-consciousness-cb:checked`).forEach(cb => locList.push(cb.value));
             let vitals = [];
             if (locList.length > 0) vitals.push(`LOC: ${locList.join(', ')}`);
-            if (bp) vitals.push(`BP: ${bp}`);
-            if (pr) vitals.push(`PR: ${pr}`);
-            if (rr) vitals.push(`RR: ${rr}`);
-            if (spo2) vitals.push(`SPO2: ${spo2}%`);
-            if (temp) vitals.push(`Temp: ${temp}°C`);
-
-            if (vitals.length > 0) {
-                let vLabel = vTime ? `• Vitals (${vTime})` : `• Vitals`;
-                pLines.push(`${vLabel}: ${vitals.join(' | ')}`);
-            }
-
-            return pLines.join('\n');
+            ['bp', 'pr', 'rr', 'spo2', 'temp'].forEach(v => {
+                let val = document.getElementById(`p${i}-v-${v}`).value.trim();
+                if (val) vitals.push(`${v.toUpperCase()}: ${val}`);
+            });
+            if (vitals.length > 0) pLines.push(`• Vitals: ${vitals.join(' | ')}`);
+            blocks.push(pLines.join('\n'));
         }
 
-        const p1Block = getPatientBlock('p1', 'Patient 1');
-        const p2Block = getPatientBlock('p2', 'Patient 2');
-        if (p1Block) blocks.push(p1Block);
-        if (p2Block) blocks.push(p2Block);
-
-        // 4. COMPANION DETAILS
-        function getCompanionBlock(prefix, title) {
-            const name = document.getElementById(`${prefix}-name`).value.trim();
-            if (!name) return "";
-
-            const relation = document.getElementById(`${prefix}-relation`).value.trim();
-            const age = document.getElementById(`${prefix}-age`).value.trim();
-            const sex = document.getElementById(`${prefix}-sex`).value.trim();
-            const address = document.getElementById(`${prefix}-address`).value.trim();
-
-            let cLines = [];
-            let header = `👥 ${title}: ${name}`;
-            if (relation) header += ` (${relation})`;
-            cLines.push(header);
-
+        for (let i = 1; i <= companionCount; i++) {
+            const name = document.getElementById(`c${i}-name`)?.value.trim();
+            if (!name) continue;
+            let cLines = [`👥 Companion ${i}: ${name} (${document.getElementById(`c${i}-relation`).value.trim()})`];
             let sub = [];
-            if (age) sub.push(`${age}yo`);
+            let age = document.getElementById(`c${i}-age`).value.trim();
+            let sex = document.getElementById(`c${i}-sex`).value.trim();
+            if (age) sub.push(age);
             if (sex) sub.push(sex);
             if (sub.length > 0) cLines.push(`• Age/Sex: ${sub.join(', ')}`);
+            let address = document.getElementById(`c${i}-address`).value.trim();
             if (address) cLines.push(`• Address: ${address}`);
-
-            return cLines.join('\n');
+            blocks.push(cLines.join('\n'));
         }
 
-        const c1Block = getCompanionBlock('c1', 'Companion 1');
-        const c2Block = getCompanionBlock('c2', 'Companion 2');
-        if (c1Block) blocks.push(c1Block);
-        if (c2Block) blocks.push(c2Block);
-
-        // 5. NATURE OF EVENT & NARRATIVE
         const rawNarrative = document.getElementById('p-narrative').value;
         const formattedNarrative = autoFormatStory(rawNarrative);
-
-        let eventText = "";
-        if (natureList.length > 0) {
-            eventText += `🚨 Nature of Event: ${natureList.join(', ')}`;
+        if (natureList.length > 0 || formattedNarrative) {
+            let ev = natureList.length > 0 ? `🚨 Nature of Event: ${natureList.join(', ')}` : '';
+            if (formattedNarrative) ev += (ev ? `\n\n` : '') + `📖 Incident Details:\n${formattedNarrative}`;
+            blocks.push(ev);
         }
-        if (formattedNarrative) {
-            if (eventText) eventText += `\n\n`;
-            eventText += `📖 Incident Details:\n${formattedNarrative}`;
-        }
-        if (eventText) blocks.push(eventText);
 
-        // 6. ASSESSMENT & INTERVENTIONS
         const assessment = document.getElementById('p-assessment').value.trim();
         const interventions = document.getElementById('p-interventions').value.trim();
-
-        let actionText = "";
-        if (assessment) actionText += `🩺 Assessment: ${assessment}`;
-        if (interventions) {
-            if (actionText) actionText += `\n`;
-            actionText += `🛠️ Interventions Taken: ${interventions}`;
+        if (assessment || interventions) {
+            let act = assessment ? `🩺 Assessment: ${assessment}` : '';
+            if (interventions) act += (act ? `\n` : '') + `🛠️ Interventions: ${interventions}`;
+            blocks.push(act);
         }
-        if (actionText) blocks.push(actionText);
-
-        // 7. RESPONDERS TEAM
-        const ambulance = document.getElementById('e-ambulance').value.trim();
-        const driver = document.getElementById('e-driver').value.trim();
-        const tl = document.getElementById('e-tl').value.trim();
-        const members = document.getElementById('e-members').value.trim();
-        const supplies = document.getElementById('e-supplies').value.trim();
 
         let teamArr = [];
-        if (ambulance) teamArr.push(`• Vehicle: ${ambulance}`);
-        if (tl) teamArr.push(`• Team Leader: ${tl}`);
-        if (driver) teamArr.push(`• Driver: ${driver}`);
-        if (members) teamArr.push(`• Members: ${members}`);
-        if (supplies) teamArr.push(`• Supplies Used: ${supplies}`);
+        let ambulanceVal = document.getElementById('e-ambulance').value.trim();
+        let driverVal = document.getElementById('e-driver').value.trim();
+        let resp1Val = document.getElementById('e-tl').value.trim();
+        let resp2Val = document.getElementById('e-members').value.trim();
+        let suppliesVal = document.getElementById('e-supplies').value.trim();
 
-        if (teamArr.length > 0) {
-            blocks.push(`👨‍🚒 Responders Team:\n${teamArr.join('\n')}`);
+        if (ambulanceVal) teamArr.push(`• Ambulance / Vehicle Used: ${ambulanceVal}`);
+        if (driverVal) teamArr.push(`• Driver: ${driverVal}`);
+        if (resp1Val) teamArr.push(`• Responder 1: ${resp1Val}`);
+        if (resp2Val) teamArr.push(`• Responder 2: ${resp2Val}`);
+
+        let opcenDuties = [];
+        ['e-opcenduty1', 'e-opcenduty2', 'e-opcenduty3'].forEach(id => {
+            let val = document.getElementById(id).value.trim();
+            if (val) opcenDuties.push(val);
+        });
+        if (opcenDuties.length > 0) {
+            teamArr.push(`• OpCen Duty: ${opcenDuties.join(', ')}`);
         }
 
-        const reportOutput = blocks.join("\n\n");
-        document.getElementById('messengerText').value = reportOutput;
-        
-        const reportBox = document.getElementById('messengerReportBox');
-        reportBox.style.display = 'block';
-        reportBox.scrollIntoView({ behavior: 'smooth' });
+        if (suppliesVal) teamArr.push(`• Supplies / Equipment Used: ${suppliesVal}`);
+
+        if (teamArr.length > 0) blocks.push(`👨🚒 Responders Team:\n${teamArr.join('\n')}`);
+
+        document.getElementById('messengerText').value = blocks.join("\n\n");
+        const box = document.getElementById('messengerReportBox');
+        box.style.display = 'block';
+        box.scrollIntoView({ behavior: 'smooth' });
     }
 
     function copyToMessenger() {
         const text = document.getElementById('messengerText');
         text.select();
-        text.setSelectionRange(0, 99999);
         navigator.clipboard.writeText(text.value).then(() => {
-            alert('✅ Copied! Ready to paste into Messenger.');
+            showCustomAlert('✅ Copied to clipboard!', 'SUCCESS');
         }).catch(() => {
-            alert('❌ Please manually copy the text inside the box.');
+            showCustomAlert('❌ Please copy manually.', 'NOTICE');
         });
     }
 </script>
