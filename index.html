@@ -23,6 +23,13 @@
             --save-bg: #064e3b;
             --save-text: #34d399;
             --save-border: #059669;
+
+            /* Distinct Section Border Colors (Dark Mode) */
+            --sec-incident: #38bdf8;   /* Sky Blue */
+            --sec-patient: #a855f7;    /* Purple */
+            --sec-companion: #ec4899;  /* Pink */
+            --sec-nature: #f59e0b;     /* Amber */
+            --sec-team: #10b981;       /* Emerald Green */
         }
 
         [data-theme="light"] {
@@ -43,6 +50,13 @@
             --save-bg: #dcfce7;
             --save-text: #166534;
             --save-border: #86efac;
+
+            /* Distinct Section Border Colors (Light Mode) */
+            --sec-incident: #0284c7;   /* Blue */
+            --sec-patient: #9333ea;    /* Purple */
+            --sec-companion: #db2777;  /* Pink */
+            --sec-nature: #d97706;     /* Amber */
+            --sec-team: #16a34a;       /* Green */
         }
 
         * {
@@ -135,20 +149,37 @@
             background: var(--input-bg);
         }
 
+        /* SECTION FIELDSET BASE WITH COLOR CODING */
         fieldset {
-            border: 1px solid var(--border);
+            border: 1.5px solid var(--border);
             border-radius: 8px;
             padding: 10px;
             margin-bottom: 10px;
             background-color: var(--field-bg);
         }
 
+        /* Specific Section Borders */
+        .section-incident { border-color: var(--sec-incident); }
+        .section-incident legend { color: var(--sec-incident); }
+
+        .patient-fieldset { border-color: var(--sec-patient); }
+        .patient-fieldset legend { color: var(--sec-patient); }
+
+        .companion-fieldset { border-color: var(--sec-companion); }
+        .companion-fieldset legend { color: var(--sec-companion); }
+
+        .section-nature { border-color: var(--sec-nature); }
+        .section-nature legend { color: var(--sec-nature); }
+
+        .section-team { border-color: var(--sec-team); }
+        .section-team legend { color: var(--sec-team); }
+
         legend {
-            font-weight: 700;
-            color: var(--primary);
+            font-weight: 800;
             padding: 0 6px;
-            font-size: 11px;
+            font-size: 11.5px;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .form-group {
@@ -182,28 +213,118 @@
             box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
         }
 
-        input.dt-trigger {
+        input.dt-trigger, input.time-trigger, input.bday-trigger {
             background-color: var(--input-hover);
             cursor: pointer;
         }
 
         textarea {
             resize: vertical;
-            min-height: 60px;
+            min-height: 50px;
         }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
 
-        .sub-category-title {
+        /* PHONE WHEEL PICKER POPUP STYLES */
+        .time-picker-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 4px;
+            background: var(--input-bg);
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 15px;
+        }
+
+        .wheel-column {
+            height: 120px;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            position: relative;
+            text-align: center;
+            background: var(--card-bg);
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .wheel-column::-webkit-scrollbar {
+            display: none;
+        }
+
+        .wheel-list {
+            list-style: none;
+            padding: 45px 0;
+            margin: 0;
+        }
+
+        .wheel-item {
+            height: 30px;
+            line-height: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            scroll-snap-align: center;
+            cursor: pointer;
+            transition: color 0.15s ease, transform 0.15s ease;
+        }
+
+        .wheel-item.selected {
+            color: var(--primary);
+            font-size: 15px;
+            background: rgba(56, 189, 248, 0.12);
+            border-radius: 4px;
+            margin: 0 4px;
+        }
+
+        .wheel-container-box {
+            position: relative;
+        }
+
+        .wheel-highlight-bar {
+            position: absolute;
+            top: 50%;
+            left: 4px;
+            right: 4px;
+            transform: translateY(-50%);
+            height: 32px;
+            border-top: 1px solid var(--primary);
+            border-bottom: 1px solid var(--primary);
+            pointer-events: none;
+            background: rgba(56, 189, 248, 0.05);
+            border-radius: 4px;
+        }
+
+        /* COLLAPSIBLE CATEGORY ACCORDION STYLES */
+        .collapse-header {
             color: var(--primary);
             font-size: 11px;
             font-weight: 700;
             margin: 8px 0 4px 0;
-            display: block;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             border-left: 3px solid var(--primary-light);
-            padding-left: 5px;
+            padding: 5px 8px;
+            background: var(--input-bg);
+            border-radius: 4px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .collapse-header:hover {
+            background: var(--input-hover);
+        }
+        .collapse-content {
+            display: none;
+            margin-top: 6px;
+            padding-bottom: 4px;
+        }
+        .collapse-content.show {
+            display: block;
         }
 
         .checkbox-group {
@@ -234,10 +355,51 @@
             cursor: pointer;
         }
 
+        /* CUSTOM DROPDOWN ACCORDION STYLES */
+        .custom-dropdown-container {
+            position: relative;
+            width: 100%;
+        }
+        .custom-select-box {
+            background-color: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 12px;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .custom-select-box:hover {
+            border-color: var(--primary);
+        }
+        .custom-dropdown-list {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            padding: 8px;
+            margin-top: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .custom-dropdown-list.show {
+            display: block;
+        }
+
         .patient-card-header, .companion-card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 100%;
         }
 
         .btn-remove-patient, .btn-remove-companion {
@@ -251,10 +413,24 @@
             font-weight: 700;
         }
 
-        .btn-add-patient, .btn-add-companion {
-            background-color: var(--primary-light);
+        .btn-add-patient {
+            background-color: #9333ea;
             color: #ffffff;
-            border: 1px solid var(--primary);
+            border: 1px solid #a855f7;
+            padding: 9px;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .btn-add-companion {
+            background-color: #db2777;
+            color: #ffffff;
+            border: 1px solid #ec4899;
             padding: 9px;
             font-size: 11px;
             font-weight: 700;
@@ -380,34 +556,6 @@
             margin-bottom: 10px;
             text-transform: uppercase;
         }
-        
-        .cal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            font-weight: 700;
-            font-size: 12px;
-        }
-        .cal-btn {
-            background: var(--input-hover);
-            color: var(--text-main);
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 700;
-        }
-        .cal-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
-            margin-bottom: 12px;
-        }
-        .cal-day-label { font-size: 10px; font-weight: 700; color: var(--text-muted); padding: 4px 0; }
-        .cal-cell { padding: 8px 0; font-size: 11px; border-radius: 4px; cursor: pointer; background: var(--input-bg); color: var(--text-main); font-weight: 600; border: 1px solid var(--border); }
-        .cal-cell.selected { background: var(--primary-light); color: #fff; border-color: var(--primary); }
-        .cal-cell.empty { background: transparent; cursor: default; border: none; }
 
         .modal-action-btns { display: flex; gap: 8px; margin-top: 10px; }
         .btn-modal-ok, .btn-modal-cancel { flex: 1; border: none; padding: 9px; border-radius: 6px; font-weight: 700; cursor: pointer; color: white; }
@@ -428,12 +576,13 @@
             input[type="text"], input[type="number"], select, textarea {
                 padding: 1px 2px; font-size: 7.5pt; border: 1px solid #777; border-radius: 2px; height: 16px; background: #fff; color: #000;
             }
-            textarea { min-height: 24px; height: 26px; }
-            .sub-category-title { font-size: 7pt; color: #000; margin: 1px 0; text-decoration: underline; border-left: none; padding-left: 0; }
+            textarea { min-height: 20px; height: 22px; }
+            .collapse-header { background: none; color: #000; border-left: none; padding: 0; margin: 1px 0; text-decoration: none; font-weight: bold; }
+            .collapse-content { display: block !important; }
             .checkbox-group { grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 1px; }
             .checkbox-item { font-size: 6.5pt; background: none; border: none; padding: 0; color: #000; }
             .checkbox-item input { width: 9px; height: 9px; margin-right: 2px; }
-            .action-btns, .report-box, .custom-modal-overlay, .status-container, .records-section, .btn-add-patient, .btn-remove-patient, .btn-add-companion, .btn-remove-companion { display: none !important; }
+            .action-btns, .report-box, .custom-modal-overlay, .status-container, .records-section, .btn-add-patient, .btn-remove-patient, .btn-add-companion, .btn-remove-companion, .custom-dropdown-list { display: none !important; }
             .print-grid-main { display: grid; grid-template-columns: 49% 50%; gap: 1%; }
         }
     </style>
@@ -458,8 +607,8 @@
     <form id="pcrForm">
         <div class="print-grid-main">
             <div class="left-col">
-                <fieldset>
-                    <legend>INCIDENT & DISPATCH DATA</legend>
+                <fieldset class="section-incident">
+                    <legend>📌 INCIDENT & DISPATCH DATA</legend>
                     <div class="grid-2">
                         <div class="form-group">
                             <label>Date</label>
@@ -471,45 +620,29 @@
                         </div>
                     </div>
                     
-                    <span class="sub-category-title">Time Logs</span>
-                    <div class="grid-2">
-                        <div class="form-group">
-                            <label>Dispatched</label>
-                            <div style="display: flex; gap: 2px;">
-                                <select id="t-dispatched-h" style="padding: 6px 2px;" onchange="updateTime('dispatched')"><option value="">Hr</option></select>
-                                <select id="t-dispatched-m" style="padding: 6px 2px;" onchange="updateTime('dispatched')"><option value="">Min</option></select>
-                                <select id="t-dispatched-ampm" style="padding: 6px 2px;" onchange="updateTime('dispatched')"><option value="">AM/PM</option><option value="AM">AM</option><option value="PM">PM</option></select>
-                            </div>
-                            <input type="text" id="t-dispatched" placeholder="O kaya i-type dito..." style="margin-top: 3px;">
-                        </div>
-                        <div class="form-group">
-                            <label>On Scene</label>
-                            <div style="display: flex; gap: 2px;">
-                                <select id="t-onscene-h" style="padding: 6px 2px;" onchange="updateTime('onscene')"><option value="">Hr</option></select>
-                                <select id="t-onscene-m" style="padding: 6px 2px;" onchange="updateTime('onscene')"><option value="">Min</option></select>
-                                <select id="t-onscene-ampm" style="padding: 6px 2px;" onchange="updateTime('onscene')"><option value="">AM/PM</option><option value="AM">AM</option><option value="PM">PM</option></select>
-                            </div>
-                            <input type="text" id="t-onscene" placeholder="O kaya i-type dito..." style="margin-top: 3px;">
-                        </div>
+                    <div class="collapse-header" style="cursor: default; background: transparent; border-left: none; padding: 2px 0; color: var(--primary);">
+                        <span>⏰ Time Logs </span>
                     </div>
-                    <div class="grid-2">
-                        <div class="form-group">
-                            <label>On Health Facility</label>
-                            <div style="display: flex; gap: 2px;">
-                                <select id="t-facility-h" style="padding: 6px 2px;" onchange="updateTime('facility')"><option value="">Hr</option></select>
-                                <select id="t-facility-m" style="padding: 6px 2px;" onchange="updateTime('facility')"><option value="">Min</option></select>
-                                <select id="t-facility-ampm" style="padding: 6px 2px;" onchange="updateTime('facility')"><option value="">AM/PM</option><option value="AM">AM</option><option value="PM">PM</option></select>
+                    <div id="timeLogsSection" style="display: block;">
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Dispatched</label>
+                                <input type="text" id="t-dispatched" class="time-trigger" readonly placeholder="--:--" onclick="openCustomTimePicker('dispatched')">
                             </div>
-                            <input type="text" id="t-facility" placeholder="O kaya i-type dito..." style="margin-top: 3px;">
+                            <div class="form-group">
+                                <label>On Scene</label>
+                                <input type="text" id="t-onscene" class="time-trigger" readonly placeholder="--:--" onclick="openCustomTimePicker('onscene')">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Back to OpCen</label>
-                            <div style="display: flex; gap: 2px;">
-                                <select id="t-backopcen-h" style="padding: 6px 2px;" onchange="updateTime('backopcen')"><option value="">Hr</option></select>
-                                <select id="t-backopcen-m" style="padding: 6px 2px;" onchange="updateTime('backopcen')"><option value="">Min</option></select>
-                                <select id="t-backopcen-ampm" style="padding: 6px 2px;" onchange="updateTime('backopcen')"><option value="">AM/PM</option><option value="AM">AM</option><option value="PM">PM</option></select>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>On Health Facility</label>
+                                <input type="text" id="t-facility" class="time-trigger" readonly placeholder="--:--" onclick="openCustomTimePicker('facility')">
                             </div>
-                            <input type="text" id="t-backopcen" placeholder="O kaya i-type dito..." style="margin-top: 3px;">
+                            <div class="form-group">
+                                <label>Back to OpCen</label>
+                                <input type="text" id="t-backopcen" class="time-trigger" readonly placeholder="--:--" onclick="openCustomTimePicker('backopcen')">
+                            </div>
                         </div>
                     </div>
 
@@ -527,6 +660,11 @@
                         <label>Location of Incident</label>
                         <input type="text" id="p-location">
                     </div>
+
+                    <div class="form-group" style="margin-top: 6px;">
+                        <label>Details / Kwento ng Pangyayari</label>
+                        <textarea id="p-narrative" placeholder="Isulat dito ang kuwento ng nangyari..."></textarea>
+                    </div>
                 </fieldset>
 
                 <div id="patientsContainer"></div>
@@ -537,123 +675,224 @@
                 <div id="companionsContainer"></div>
                 <button type="button" class="btn-add-companion" onclick="addNewCompanionSection()">➕ Magdagdag ng Companion</button>
 
-                <fieldset>
-                    <legend>NATURE AND TYPE OF EVENT</legend>
+                <fieldset class="section-nature">
+                    <legend>🔍 NATURE AND TYPE OF EVENT</legend>
                     
-                    <span class="sub-category-title">Accident</span>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Self Accident"> Self</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Auto Accident"> Auto</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Bicycle Accident"> Bicycle</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Jeepney Accident"> Jeepney</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Van Accident"> Van</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Truck Accident"> Truck</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Pedestrian"> Pedestrian</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="E-Bike Accident"> E-Bike</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Bus Accident"> Bus</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Motorcycle Accident"> Motorcycle</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Tricycle Accident"> Tricycle</label>
+                    <!-- ACCIDENT SECTION -->
+                    <div class="collapse-header" onclick="toggleSection('collapseAccident')">
+                        <span>🚗 Accident</span>
+                        <span id="icon-collapseAccident">▼</span>
+                    </div>
+                    <div id="collapseAccident" class="collapse-content">
+                        <div class="checkbox-group">
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Self Accident"> Self</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Auto Accident"> Auto</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Bicycle Accident"> Bicycle</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Jeepney Accident"> Jeepney</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Van Accident"> Van</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Truck Accident"> Truck</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Pedestrian"> Pedestrian</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="E-Bike Accident"> E-Bike</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Bus Accident"> Bus</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Motorcycle Accident"> Motorcycle</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Tricycle Accident"> Tricycle</label>
+                        </div>
                     </div>
 
-                    <span class="sub-category-title">Medical</span>
-                    <div class="checkbox-group" style="grid-template-columns: repeat(3, 1fr);">
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Abrasion"> Abrasion</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Dislocation"> Dislocation</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Tenderness"> Tenderness</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Cough"> Cough</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Seizure"> Seizure</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Vomiting"> Vomiting</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Amputation"> Amputation</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Fracture"> Fracture</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Abdominal Pain"> Abd. Pain</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Dengue"> Dengue</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Stroke"> Stroke</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Avulsion"> Avulsion</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Head Injury"> Head Injury</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Asthma"> Asthma</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Diabetic"> Diabetic</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Breathing Problem"> Breathing Prob.</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Bleeding"> Bleeding</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Laceration"> Laceration</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Back Pain"> Back Pain</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Dizziness"> Dizziness</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Child Birth"> Child Birth</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Bruises"> Bruises</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Puncture"> Puncture</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Chest Pain"> Chest Pain</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Epileptic"> Epileptic</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="High BP"> High BP</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Burn"> Burn</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Swelling"> Swelling</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Convulsion"> Convulsion</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Fever"> Fever</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Low BP"> Low BP</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Ambulance Assistance"> Amb. Assist</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Transfer"> Transfer</label>
+                    <!-- MEDICAL SECTION -->
+                    <div class="collapse-header" onclick="toggleSection('collapseMedical')">
+                        <span>🏥 Medical</span>
+                        <span id="icon-collapseMedical">▼</span>
+                    </div>
+                    <div id="collapseMedical" class="collapse-content">
+                        <div class="checkbox-group" style="grid-template-columns: repeat(3, 1fr);">
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Abrasion"> Abrasion</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Dislocation"> Dislocation</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Tenderness"> Tenderness</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Cough"> Cough</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Seizure"> Seizure</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Vomiting"> Vomiting</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Amputation"> Amputation</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Fracture"> Fracture</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Abdominal Pain"> Abd. Pain</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Dengue"> Dengue</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Stroke"> Stroke</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Avulsion"> Avulsion</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Head Injury"> Head Injury</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Asthma"> Asthma</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Diabetic"> Diabetic</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Breathing Problem"> Breathing Prob.</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Bleeding"> Bleeding</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Laceration"> Laceration</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Back Pain"> Back Pain</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Dizziness"> Dizziness</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Child Birth"> Child Birth</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Bruises"> Bruises</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Puncture"> Puncture</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Chest Pain"> Chest Pain</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Epileptic"> Epileptic</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="High BP"> High BP</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Burn"> Burn</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Swelling"> Swelling</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Convulsion"> Convulsion</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Fever"> Fever</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Low BP"> Low BP</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Ambulance Assistance"> Amb. Assist</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Transfer"> Transfer</label>
+                        </div>
                     </div>
 
-                    <span class="sub-category-title">Crime & Disaster</span>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Gunshot"> Gunshot</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Hit & Run"> Hit & Run</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Riot"> Riot</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Suicide"> Suicide</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Stabbing"> Stabbing</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Physical Injury"> Phys. Injury</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Fire-Residential"> Fire-Res.</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Fire-Commercial"> Fire-Comm.</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Flooding"> Flooding</label>
-                        <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Earthquake"> Earthquake</label>
+                    <!-- CRIME & DISASTER SECTION -->
+                    <div class="collapse-header" onclick="toggleSection('collapseCrime')">
+                        <span>🚨 Crime & Disaster</span>
+                        <span id="icon-collapseCrime">▼</span>
                     </div>
-
-                    <div class="form-group" style="margin-top: 6px;">
-                        <label>Others (Specify)</label>
-                        <input type="text" id="p-others-nature">
+                    <div id="collapseCrime" class="collapse-content">
+                        <div class="checkbox-group">
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Gunshot"> Gunshot</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Hit & Run"> Hit & Run</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Riot"> Riot</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Suicide"> Suicide</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Stabbing"> Stabbing</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Physical Injury"> Phys. Injury</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Fire-Residential"> Fire-Res.</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Fire-Commercial"> Fire-Comm.</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Flooding"> Flooding</label>
+                            <label class="checkbox-item"><input type="checkbox" class="nature-cb" value="Earthquake"> Earthquake</label>
+                        </div>
                     </div>
 
                     <div class="form-group" style="margin-top: 8px;">
-                        <label>Details / Kwento ng Pangyayari</label>
-                        <textarea id="p-narrative" placeholder="Isulat dito ang kuwento ng nangyari..."></textarea>
-                    </div>
-                </fieldset>
-
-                <fieldset>
-                    <legend>ASSESSMENT & INTERVENTIONS</legend>
-                    <div class="form-group">
-                        <label>Assessment/s</label>
-                        <textarea id="p-assessment" placeholder="Assessment..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Interventions</label>
-                        <textarea id="p-interventions" placeholder="Gawang aksyon..."></textarea>
+                        <label>Others (Specify)</label>
+                        <input type="text" id="p-others-nature">
                     </div>
                 </fieldset>
             </div>
         </div>
 
-        <fieldset style="margin-top: 4px;">
-            <legend>RESPONDERS TEAM & VEHICLE DETAILS</legend>
+        <fieldset class="section-team" style="margin-top: 4px;">
+            <legend>👨‍🚒 RESPONDERS TEAM & VEHICLE DETAILS</legend>
             <div class="grid-2">
-                <div class="form-group"><label>Ambulance / Vehicle Used</label><input type="text" id="e-ambulance"></div>
-                <div class="form-group"><label>Driver</label><input type="text" id="e-driver"></div>
+                <div class="form-group">
+                    <label>Ambulance / Vehicle Used</label>
+                    <select id="e-ambulance-select" onchange="handleAmbulanceChange()">
+                        <option value="">-Select Ambulance-</option>
+                        <option value="Ambulance 1">Ambulance 1</option>
+                        <option value="Ambulance 2">Ambulance 2</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="text" id="e-ambulance" placeholder="I-type ang sasakyan..." style="margin-top: 4px; display: none;">
+                </div>
+                <div class="form-group">
+                    <label>Driver</label>
+                    <select id="e-driver-select" onchange="handleStaffChange('driver')">
+                        <option value="">-Select Driver-</option>
+                        <option value="Albert migino">Albert migino</option>
+                        <option value="Aneway miras">Aneway miras</option>
+                        <option value="Arnel flores">Arnel flores</option>
+                        <option value="Charity bugtong">Charity bugtong</option>
+                        <option value="Daniel vic pereja">Daniel vic pereja</option>
+                        <option value="Desiry javier">Desiry javier</option>
+                        <option value="Edgardo gonzales II">Edgardo gonzales II</option>
+                        <option value="Edrito calupig">Edrito calupig</option>
+                        <option value="Elmer gallardo">Elmer gallardo</option>
+                        <option value="Frederick samonte">Frederick samonte</option>
+                        <option value="Henry barozzo">Henry barozzo</option>
+                        <option value="Jayjay pereja">Jayjay pereja</option>
+                        <option value="Jayjohn lipit">Jayjohn lipit</option>
+                        <option value="Jayson oliveros">Jayson oliveros</option>
+                        <option value="Jonathan ruazol">Jonathan ruazol</option>
+                        <option value="King jim fernandez">King jim fernandez</option>
+                        <option value="Leonil padoc">Leonil padoc</option>
+                        <option value="R-jay cube">R-jay cube</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="text" id="e-driver" placeholder="I-type ang pangalan..." style="margin-top: 4px; display: none;">
+                </div>
             </div>
             <div class="grid-2">
-                <div class="form-group"><label>Responder 1</label><input type="text" id="e-tl"></div>
-                <div class="form-group"><label>Responder 2</label><input type="text" id="e-members"></div>
+                <div class="form-group">
+                    <label>Responder 1</label>
+                    <select id="e-tl-select" onchange="handleStaffChange('tl')">
+                        <option value="">-Select Responder 1-</option>
+                        <option value="Albert migino">Albert migino</option>
+                        <option value="Aneway miras">Aneway miras</option>
+                        <option value="Arnel flores">Arnel flores</option>
+                        <option value="Charity bugtong">Charity bugtong</option>
+                        <option value="Daniel vic pereja">Daniel vic pereja</option>
+                        <option value="Desiry javier">Desiry javier</option>
+                        <option value="Edgardo gonzales II">Edgardo gonzales II</option>
+                        <option value="Edrito calupig">Edrito calupig</option>
+                        <option value="Elmer gallardo">Elmer gallardo</option>
+                        <option value="Frederick samonte">Frederick samonte</option>
+                        <option value="Henry barozzo">Henry barozzo</option>
+                        <option value="Jayjay pereja">Jayjay pereja</option>
+                        <option value="Jayjohn lipit">Jayjohn lipit</option>
+                        <option value="Jayson oliveros">Jayson oliveros</option>
+                        <option value="Jonathan ruazol">Jonathan ruazol</option>
+                        <option value="King jim fernandez">King jim fernandez</option>
+                        <option value="Leonil padoc">Leonil padoc</option>
+                        <option value="R-jay cube">R-jay cube</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="text" id="e-tl" placeholder="I-type ang pangalan..." style="margin-top: 4px; display: none;">
+                </div>
+                <div class="form-group">
+                    <label>Responder 2</label>
+                    <select id="e-members-select" onchange="handleStaffChange('members')">
+                        <option value="">-Select Responder 2-</option>
+                        <option value="Albert migino">Albert migino</option>
+                        <option value="Aneway miras">Aneway miras</option>
+                        <option value="Arnel flores">Arnel flores</option>
+                        <option value="Charity bugtong">Charity bugtong</option>
+                        <option value="Daniel vic pereja">Daniel vic pereja</option>
+                        <option value="Desiry javier">Desiry javier</option>
+                        <option value="Edgardo gonzales II">Edgardo gonzales II</option>
+                        <option value="Edrito calupig">Edrito calupig</option>
+                        <option value="Elmer gallardo">Elmer gallardo</option>
+                        <option value="Frederick samonte">Frederick samonte</option>
+                        <option value="Henry barozzo">Henry barozzo</option>
+                        <option value="Jayjay pereja">Jayjay pereja</option>
+                        <option value="Jayjohn lipit">Jayjohn lipit</option>
+                        <option value="Jayson oliveros">Jayson oliveros</option>
+                        <option value="Jonathan ruazol">Jonathan ruazol</option>
+                        <option value="King jim fernandez">King jim fernandez</option>
+                        <option value="Leonil padoc">Leonil padoc</option>
+                        <option value="R-jay cube">R-jay cube</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="text" id="e-members" placeholder="I-type ang pangalan..." style="margin-top: 4px; display: none;">
+                </div>
             </div>
             
             <div class="form-group">
-                <label>OpCen Duty (Hanggang 3 Responders)</label>
-                <div style="display: flex; flex-direction: column; gap: 4px;">
-                    <input type="text" id="e-opcenduty1" placeholder="Unang OpCen Duty">
-                    <input type="text" id="e-opcenduty2" placeholder="Ikalawang OpCen Duty">
-                    <input type="text" id="e-opcenduty3" placeholder="Ikatlong OpCen Duty">
+                <label>OpCen Duty (Pumili ng kahit ilan)</label>
+                <div class="custom-dropdown-container" id="opcenContainerBox">
+                    <div class="custom-select-box" onclick="toggleCustomDropdown('opcenDropdownList', event)">
+                        <span id="opcenSelectLabel">- Pumili ng OpCen Duty -</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="custom-dropdown-list" id="opcenDropdownList">
+                        <div class="checkbox-group" id="opcenDutyContainer" style="grid-template-columns: 1fr;">
+                            <!-- Auto-populated via script -->
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>Supplies / Equipment Used</label>
-                <input type="text" id="e-supplies">
+                <label>Supplies / Equipment Used (Pumili ng kahit ilan)</label>
+                <div class="custom-dropdown-container" id="suppliesContainerBox">
+                    <div class="custom-select-box" onclick="toggleCustomDropdown('suppliesDropdownList', event)">
+                        <span id="suppliesSelectLabel">- Pumili ng Supplies -</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="custom-dropdown-list" id="suppliesDropdownList">
+                        <div class="checkbox-group" id="suppliesCheckboxContainer" style="grid-template-columns: 1fr;">
+                            <!-- Auto-populated via script -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </fieldset>
 
@@ -664,8 +903,8 @@
             <button type="button" class="btn btn-import" onclick="document.getElementById('importFileElem').click()">📤 IMPORT (.JSON)</button>
             <input type="file" id="importFileElem" accept=".json" style="display:none" onchange="importJsonFile(event)">
             <button type="button" class="btn btn-print" onclick="window.print()">🖨 PRINT / PDF</button>
-            <button type="button" id="themeToggleBtn" class="btn btn-theme-toggle" onclick="toggleTheme()">☀️ Light Mode</button>
-            <button type="button" class="btn btn-reset" onclick="clearSavedData()">🗑️ NEW FORM</button>
+            <button type="button" id="themeToggleBtn" class="btn btn-theme-toggle" onclick="toggleTheme()">☀ Light Mode</button>
+            <button type="button" class="btn btn-reset" onclick="clearSavedData()">🗑 NEW FORM</button>
         </div>
 
         <div id="messengerReportBox" class="report-box">
@@ -708,12 +947,12 @@
 <div id="dateModalOverlay" class="custom-modal-overlay">
     <div class="custom-modal-card">
         <div class="custom-modal-title">SELECT DATE</div>
-        <div class="cal-header">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-weight: 700; font-size: 12px;">
             <button type="button" class="cal-btn" onclick="prevMonth()">&lt;</button>
             <span id="calMonthYear"></span>
             <button type="button" class="cal-btn" onclick="nextMonth()">&gt;</button>
         </div>
-        <div class="cal-grid" id="calGrid"></div>
+        <div class="cal-grid" id="calGrid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 12px;"></div>
         <div class="modal-action-btns">
             <button type="button" class="btn-modal-cancel" onclick="closeDatePicker(true)">CANCEL</button>
             <button type="button" class="btn-modal-ok" onclick="confirmDatePicker()">OK</button>
@@ -721,13 +960,161 @@
     </div>
 </div>
 
+<!-- TIME PICKER MODAL -->
+<div id="timeModalOverlay" class="custom-modal-overlay">
+    <div class="custom-modal-card" style="max-width: 280px;">
+        <div class="custom-modal-title" id="timeModalTitle">PILIIN ANG ORAS</div>
+        <div class="wheel-container-box">
+            <div class="wheel-highlight-bar"></div>
+            <div class="time-picker-wrapper">
+                <div class="wheel-column" id="wheel-popup-h" onscroll="handlePopupWheelScroll('h')"><ul class="wheel-list" id="list-popup-h"></ul></div>
+                <div class="wheel-column" id="wheel-popup-m" onscroll="handlePopupWheelScroll('m')"><ul class="wheel-list" id="list-popup-m"></ul></div>
+                <div class="wheel-column" id="wheel-popup-ampm" onscroll="handlePopupWheelScroll('ampm')"><ul class="wheel-list" id="list-popup-ampm"></ul></div>
+            </div>
+        </div>
+        <div class="modal-action-btns">
+            <button type="button" class="btn-modal-cancel" onclick="closeTimePicker(true)">CANCEL</button>
+            <button type="button" class="btn-modal-ok" onclick="confirmTimePicker()">OK</button>
+        </div>
+    </div>
+</div>
+
+<!-- BDAY WHEEL PICKER MODAL -->
+<div id="bdayModalOverlay" class="custom-modal-overlay">
+    <div class="custom-modal-card" style="max-width: 300px;">
+        <div class="custom-modal-title">PILIIN ANG BIRTHDAY (Year - Month - Day)</div>
+        <div class="wheel-container-box">
+            <div class="wheel-highlight-bar"></div>
+            <div class="time-picker-wrapper" style="grid-template-columns: 1.2fr 1.5fr 1fr;">
+                <div class="wheel-column" id="wheel-bday-y" onscroll="handleBdayWheelScroll('y')"><ul class="wheel-list" id="list-bday-y"></ul></div>
+                <div class="wheel-column" id="wheel-bday-m" onscroll="handleBdayWheelScroll('m')"><ul class="wheel-list" id="list-bday-m"></ul></div>
+                <div class="wheel-column" id="wheel-bday-d" onscroll="handleBdayWheelScroll('d')"><ul class="wheel-list" id="list-bday-d"></ul></div>
+            </div>
+        </div>
+        <div class="modal-action-btns">
+            <button type="button" class="btn-modal-cancel" onclick="closeBdayPicker()">CANCEL</button>
+            <button type="button" class="btn-modal-ok" onclick="confirmBdayPicker()">OK</button>
+        </div>
+    </div>
+</div>
+
 <script>
+    const allStaffNames = [
+        "Albert migino", "Aneway miras", "Arnel flores", "Charity bugtong", 
+        "Daniel vic pereja", "Desiry javier", "Edgardo gonzales II", "Edrito calupig",
+        "Elmer gallardo", "Frederick samonte", "Henry barozzo", "Jayjay pereja", 
+        "Jayjohn lipit", "Jayson oliveros", "Jonathan ruazol", "King jim fernandez", 
+        "Leonil padoc", "R-jay cube"
+    ];
+
+    const allSuppliesList = [
+        "Disposable gloves", "Facemask", "Band-aid", "Sterille gauze pads", 
+        "Gauze roll", "Elastic bandage", "Triangular bandage", "Micropore tape", "Betadine"
+    ];
+
+    function toggleSection(sectionId) {
+        const el = document.getElementById(sectionId);
+        if (!el) return;
+        el.classList.toggle('show');
+    }
+
+    function initOpCenCheckboxes() {
+        const container = document.getElementById('opcenDutyContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        allStaffNames.forEach((name) => {
+            const lbl = document.createElement('label');
+            lbl.className = 'checkbox-item';
+            lbl.innerHTML = `<input type="checkbox" class="opcen-duty-cb" value="${name}" onchange="updateOpCenLabel(); autoSaveData();"> ${name}`;
+            container.appendChild(lbl);
+        });
+        updateOpCenLabel();
+    }
+
+    function initSuppliesCheckboxes() {
+        const container = document.getElementById('suppliesCheckboxContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        allSuppliesList.forEach((item) => {
+            const lbl = document.createElement('label');
+            lbl.className = 'checkbox-item';
+            lbl.innerHTML = `<input type="checkbox" class="supplies-item-cb" value="${item}" onchange="updateSuppliesLabel(); autoSaveData();"> ${item}`;
+            container.appendChild(lbl);
+        });
+        updateSuppliesLabel();
+    }
+
+    function toggleCustomDropdown(listId, e) {
+        e.stopPropagation();
+        document.querySelectorAll('.custom-dropdown-list').forEach(l => {
+            if (l.id !== listId) l.classList.remove('show');
+        });
+        const list = document.getElementById(listId);
+        if (list) list.classList.toggle('show');
+    }
+
+    function updateOpCenLabel() {
+        const checked = document.querySelectorAll('.opcen-duty-cb:checked');
+        const label = document.getElementById('opcenSelectLabel');
+        if (checked.length === 0) {
+            label.innerText = '- Pumili ng OpCen Duty -';
+        } else {
+            let names = Array.from(checked).map(cb => cb.value);
+            label.innerText = names.join(', ');
+        }
+    }
+
+    function updateSuppliesLabel() {
+        const checked = document.querySelectorAll('.supplies-item-cb:checked');
+        const label = document.getElementById('suppliesSelectLabel');
+        if (checked.length === 0) {
+            label.innerText = '- Pumili ng Supplies -';
+        } else {
+            let items = Array.from(checked).map(cb => cb.value);
+            label.innerText = items.join(', ');
+        }
+    }
+
+    window.addEventListener('click', function(e) {
+        if (!e.target.closest('.custom-dropdown-container')) {
+            document.querySelectorAll('.custom-dropdown-list').forEach(l => l.classList.remove('show'));
+        }
+    });
+
     function toggleTheme() {
         const html = document.documentElement;
         const newTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         html.setAttribute('data-theme', newTheme);
         localStorage.setItem('mdrrmo_theme', newTheme);
         document.getElementById('themeToggleBtn').innerText = newTheme === 'dark' ? '☀ Light Mode' : '🌙 Dark Mode';
+    }
+
+    function handleAmbulanceChange() {
+        const sel = document.getElementById('e-ambulance-select');
+        const txt = document.getElementById('e-ambulance');
+        if (sel.value === 'Other') {
+            txt.style.display = 'block';
+            txt.value = '';
+            txt.focus();
+        } else {
+            txt.style.display = 'none';
+            txt.value = sel.value;
+        }
+        autoSaveData();
+    }
+
+    function handleStaffChange(fieldType) {
+        const sel = document.getElementById(`e-${fieldType}-select`);
+        const txt = document.getElementById(`e-${fieldType}`);
+        if (sel.value === 'Other') {
+            txt.style.display = 'block';
+            txt.value = '';
+            txt.focus();
+        } else {
+            txt.style.display = 'none';
+            txt.value = sel.value;
+        }
+        autoSaveData();
     }
 
     function updateRealTimeClock() {
@@ -784,7 +1171,7 @@
 
         ["S", "M", "T", "W", "T", "F", "S"].forEach(d => {
             const lbl = document.createElement('div');
-            lbl.className = 'cal-day-label';
+            lbl.style.cssText = 'font-size: 10px; font-weight: 700; color: var(--text-muted); padding: 4px 0; text-align: center;';
             lbl.innerText = d;
             calGrid.appendChild(lbl);
         });
@@ -794,24 +1181,34 @@
 
         for (let i = 0; i < firstDay; i++) {
             const empty = document.createElement('div');
-            empty.className = 'cal-cell empty';
+            empty.style.cssText = 'background: transparent; cursor: default;';
             calGrid.appendChild(empty);
         }
 
         for (let d = 1; d <= totalDays; d++) {
             const cell = document.createElement('div');
-            cell.className = 'cal-cell';
+            cell.style.cssText = 'padding: 8px 0; font-size: 11px; border-radius: 4px; cursor: pointer; background: var(--input-bg); color: var(--text-main); font-weight: 600; border: 1px solid var(--border); text-align: center;';
             cell.innerText = d;
             let dateVal = `${year}-${(month + 1).toString().padStart(2, '0')}-${d.toString().padStart(2, '0')}`;
 
             if (activeInputTarget && activeInputTarget.value === dateVal) {
-                cell.classList.add('selected');
+                cell.style.background = 'var(--primary-light)';
+                cell.style.color = '#fff';
+                cell.style.borderColor = 'var(--primary)';
                 selectedDateStr = dateVal;
             }
 
             cell.onclick = () => {
-                document.querySelectorAll('.cal-cell').forEach(c => c.classList.remove('selected'));
-                cell.classList.add('selected');
+                Array.from(calGrid.children).forEach(c => {
+                    if(!c.classList.contains('cal-day-label')) {
+                        c.style.background = 'var(--input-bg)';
+                        c.style.color = 'var(--text-main)';
+                        c.style.borderColor = 'var(--border)';
+                    }
+                });
+                cell.style.background = 'var(--primary-light)';
+                cell.style.color = '#fff';
+                cell.style.borderColor = 'var(--primary)';
                 selectedDateStr = dateVal;
             };
             calGrid.appendChild(cell);
@@ -834,31 +1231,194 @@
         selectedDateStr = "";
     }
 
-    function populateTimeSelectors() {
-        ['dispatched', 'onscene', 'facility', 'backopcen'].forEach(f => {
-            let hSel = document.getElementById(`t-${f}-h`);
-            let mSel = document.getElementById(`t-${f}-m`);
-            if (hSel && hSel.options.length <= 1) {
-                for (let h = 1; h <= 12; h++) hSel.innerHTML += `<option value="${h}">${h}</option>`;
-            }
-            if (mSel && mSel.options.length <= 1) {
-                for (let m = 0; m < 60; m++) {
-                    let mStr = m.toString().padStart(2, '0');
-                    mSel.innerHTML += `<option value="${mStr}">${mStr}</option>`;
-                }
-            }
-        });
+    // TIME WHEEL PICKER
+    let activeTimeFieldKey = null;
+    function initPopupWheel() {
+        buildWheel('list-popup-h', 1, 12, (val) => val.toString());
+        buildWheel('list-popup-m', 0, 59, (val) => val.toString().padStart(2, '0'));
+        buildWheel('list-popup-ampm', ['AM', 'PM'], ['AM', 'PM'], (val) => val);
     }
 
-    function updateTime(fieldKey) {
-        let h = document.getElementById(`t-${fieldKey}-h`).value;
-        let m = document.getElementById(`t-${fieldKey}-m`).value;
-        let ampm = document.getElementById(`t-${fieldKey}-ampm`).value;
-        let textInput = document.getElementById(`t-${fieldKey}`);
+    function buildWheel(listId, startOrArr, endOrFormatter, formatter) {
+        const ul = document.getElementById(listId);
+        if (!ul) return;
+        ul.innerHTML = '';
+        let items = [];
+        if (Array.isArray(startOrArr)) {
+            items = startOrArr;
+        } else {
+            for (let i = startOrArr; i <= endOrFormatter; i++) {
+                items.push(formatter(i));
+            }
+        }
+        let html = '<li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li><li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li>';
+        items.forEach(item => { html += `<li class="wheel-item" data-value="${item}">${item}</li>`; });
+        html += '<li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li><li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li>';
+        ul.innerHTML = html;
+    }
+
+    function openCustomTimePicker(fieldKey) {
+        activeTimeFieldKey = fieldKey;
+        const titles = { 
+            'dispatched': 'DISPATCHED TIME', 
+            'onscene': 'ON SCENE TIME', 
+            'facility': 'HEALTH FACILITY TIME', 
+            'backopcen': 'BACK TO OPCEN TIME' 
+        };
+        let title = titles[fieldKey];
+        if (!title && fieldKey.includes('-v-time')) {
+            let pNum = fieldKey.match(/p(\d+)/)?.[1] || '1';
+            title = `PATIENT ${pNum} VITALS TIME`;
+        }
+        document.getElementById('timeModalTitle').innerText = title || 'PILIIN ANG ORAS';
+        document.getElementById('timeModalOverlay').style.display = 'flex';
+
+        let elemId = document.getElementById(`t-${fieldKey}`) ? `t-${fieldKey}` : fieldKey;
+        let targetElem = document.getElementById(elemId);
+        let currentVal = targetElem ? targetElem.value : '';
+        if (currentVal) {
+            let parts = currentVal.split(' ');
+            let hm = parts[0].split(':');
+            if (hm.length === 2) {
+                setTimeout(() => {
+                    scrollToPopupValue('h', hm[0], 'wheel-popup-h');
+                    scrollToPopupValue('m', hm[1], 'wheel-popup-m');
+                    if (parts[1]) scrollToPopupValue('ampm', parts[1].toUpperCase(), 'wheel-popup-ampm');
+                }, 50);
+            }
+        } else {
+            setTimeout(() => {
+                scrollToPopupValue('h', '12', 'wheel-popup-h');
+                scrollToPopupValue('m', '00', 'wheel-popup-m');
+                scrollToPopupValue('ampm', 'AM', 'wheel-popup-ampm');
+            }, 50);
+        }
+    }
+
+    function scrollToPopupValue(part, val, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        const items = container.querySelectorAll('.wheel-item');
+        let targetItem = null;
+        items.forEach(i => { if (i.getAttribute('data-value') === val.toString()) targetItem = i; });
+        if (targetItem) {
+            container.scrollTop = targetItem.offsetTop - container.clientHeight / 2 + targetItem.clientHeight / 2;
+            items.forEach(i => i.classList.remove('selected'));
+            targetItem.classList.add('selected');
+        }
+    }
+
+    function handlePopupWheelScroll(part) {
+        handleGenericWheelScroll(`wheel-popup-${part}`);
+    }
+
+    function handleGenericWheelScroll(containerId) {
+        const container = document.getElementById(containerId);
+        if(!container) return;
+        const items = container.querySelectorAll('.wheel-item');
+        const containerRect = container.getBoundingClientRect();
+        const containerCenter = containerRect.top + containerRect.height / 2;
+        let closestItem = null;
+        let minDistance = Infinity;
+
+        items.forEach(item => {
+            const rect = item.getBoundingClientRect();
+            const itemCenter = rect.top + rect.height / 2;
+            const distance = Math.abs(containerCenter - itemCenter);
+            if (distance < minDistance) { minDistance = distance; closestItem = item; }
+        });
+
+        items.forEach(i => i.classList.remove('selected'));
+        if (closestItem && closestItem.getAttribute('data-value') !== "") {
+            closestItem.classList.add('selected');
+        }
+    }
+
+    function confirmTimePicker() {
+        if (!activeTimeFieldKey) return;
+        const getSelectedVal = (part) => {
+            const container = document.getElementById(`wheel-popup-${part}`);
+            if (!container) return '';
+            const selected = container.querySelector('.wheel-item.selected');
+            return selected ? selected.getAttribute('data-value') : '';
+        };
+        let h = getSelectedVal('h');
+        let m = getSelectedVal('m');
+        let ampm = getSelectedVal('ampm');
+        if (h && m && ampm) {
+            let elemId = document.getElementById(`t-${activeTimeFieldKey}`) ? `t-${activeTimeFieldKey}` : activeTimeFieldKey;
+            let targetElem = document.getElementById(elemId);
+            if (targetElem) {
+                targetElem.value = `${h}:${m} ${ampm}`;
+                autoSaveData();
+            }
+        }
+        closeTimePicker();
+    }
+
+    function closeTimePicker() { document.getElementById('timeModalOverlay').style.display = 'none'; activeTimeFieldKey = null; }
+
+    // BIRTHDAY WHEEL PICKER (1920 to 2030)
+    let activeBdayPatientId = null;
+
+    function initBdayWheel() {
+        buildWheel('list-bday-y', 1920, 2030, (val) => val.toString());
         
-        if (h && m && ampm) textInput.value = `${h}:${m} ${ampm}`;
-        else if (h && m) textInput.value = `${h}:${m}`;
-        autoSaveData();
+        const months = [
+            {v:'01', n:'Jan'}, {v:'02', n:'Feb'}, {v:'03', n:'Mar'}, {v:'04', n:'Apr'},
+            {v:'05', n:'May'}, {v:'06', n:'Jun'}, {v:'07', n:'Jul'}, {v:'08', n:'Aug'},
+            {v:'09', n:'Sep'}, {v:'10', n:'Oct'}, {v:'11', n:'Nov'}, {v:'12', n:'Dec'}
+        ];
+        const ulM = document.getElementById('list-bday-m');
+        if(ulM) {
+            let html = '<li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li><li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li>';
+            months.forEach(m => { html += `<li class="wheel-item" data-value="${m.v}">${m.n} (${m.v})</li>`; });
+            html += '<li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li><li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li>';
+            ulM.innerHTML = html;
+        }
+
+        buildWheel('list-bday-d', 1, 31, (val) => val.toString().padStart(2, '0'));
+    }
+
+    function openCustomBdayPicker(idNum) {
+        activeBdayPatientId = idNum;
+        document.getElementById('bdayModalOverlay').style.display = 'flex';
+        let currentBday = document.getElementById(`p${idNum}-bday`).value;
+        let [y, m, d] = currentBday ? currentBday.split('-') : [new Date().getFullYear().toString(), '01', '01'];
+        setTimeout(() => {
+            scrollToPopupValue('y', y || '1990', 'wheel-bday-y');
+            scrollToPopupValue('m', m || '01', 'wheel-bday-m');
+            scrollToPopupValue('d', d || '01', 'wheel-bday-d');
+        }, 50);
+    }
+
+    function handleBdayWheelScroll(part) {
+        handleGenericWheelScroll(`wheel-bday-${part}`);
+    }
+
+    function confirmBdayPicker() {
+        if (!activeBdayPatientId) return;
+        const getBdayVal = (part) => {
+            const container = document.getElementById(`wheel-bday-${part}`);
+            if (!container) return '';
+            const selected = container.querySelector('.wheel-item.selected');
+            return selected ? selected.getAttribute('data-value') : '';
+        };
+        let y = getBdayVal('y');
+        let m = getBdayVal('m');
+        let d = getBdayVal('d');
+        if (y && m && d) {
+            let fullDate = `${y}-${m}-${d}`;
+            document.getElementById(`p${activeBdayPatientId}-bday`).value = fullDate;
+            document.getElementById(`p${activeBdayPatientId}-bday-display`).value = fullDate;
+            autoSaveData();
+        }
+        closeBdayPicker();
+    }
+
+    function closeBdayPicker() {
+        document.getElementById('bdayModalOverlay').style.display = 'none';
+        activeBdayPatientId = null;
     }
 
     let patientCount = 0;
@@ -874,38 +1434,13 @@
             ageOptions += `<option value="${a}" ${sel}>${a} yo</option>`;
         }
 
-        let currentYear = new Date().getFullYear();
         let bdayVal = data[`p${idNum}-bday`] || '';
-        let [by = '', bm = '', bd = ''] = bdayVal ? bdayVal.split('-') : [];
-
-        let yearOptions = '<option value="">Taon (Year)</option>';
-        for (let y = currentYear; y >= currentYear - 100; y--) {
-            let sel = (by == y) ? 'selected' : '';
-            yearOptions += `<option value="${y}" ${sel}>${y}</option>`;
-        }
-
-        let monthOptions = '<option value="">Buwan (Month)</option>';
-        const monthsList = [
-            {v: '01', n: 'January (01)'}, {v: '02', n: 'February (02)'}, {v: '03', n: 'March (03)'}, {v: '04', n: 'April (04)'},
-            {v: '05', n: 'May (05)'}, {v: '06', n: 'June (06)'}, {v: '07', n: 'July (07)'}, {v: '08', n: 'August (08)'},
-            {v: '09', n: 'September (09)'}, {v: '10', n: 'October (10)'}, {v: '11', n: 'November (11)'}, {v: '12', n: 'December (12)'}
-        ];
-        monthsList.forEach(m => {
-            let sel = (bm == m.v) ? 'selected' : '';
-            monthOptions += `<option value="${m.v}" ${sel}>${m.n}</option>`;
-        });
-
-        let dayOptions = '<option value="">Araw (Day)</option>';
-        for (let d = 1; d <= 31; d++) {
-            let dStr = d.toString().padStart(2, '0');
-            let sel = (bd == dStr) ? 'selected' : '';
-            dayOptions += `<option value="${dStr}" ${sel}>${dStr}</option>`;
-        }
+        let vTimeVal = data[`p${idNum}-v-time`] || '';
 
         fieldset.innerHTML = `
             <legend>
                 <div class="patient-card-header">
-                    <span>PATIENT ${idNum} - INFO & VITALS</span>
+                    <span>👤 PATIENT ${idNum} - INFO & VITALS</span>
                     ${removeBtnHtml}
                 </div>
             </legend>
@@ -915,45 +1450,46 @@
                 <div class="form-group"><label>Gender</label><select id="p${idNum}-gender"><option value="">-Select-</option><option value="Male" ${data[`p${idNum}-gender`] === 'Male' ? 'selected' : ''}>Male</option><option value="Female" ${data[`p${idNum}-gender`] === 'Female' ? 'selected' : ''}>Female</option></select></div>
             </div>
 
-            <div class="form-group" style="background: var(--input-bg); padding: 8px; border-radius: 6px; border: 1px solid var(--border); margin-top: 6px;">
-                <label style="color: var(--primary); font-size: 11px; margin-bottom: 3px;">Birth Date (Year, Month, Day):</label>
-                <div style="display: grid; grid-template-columns: 1.2fr 1.5fr 1fr; gap: 4px;">
-                    <select id="p${idNum}-bday-y" style="padding: 6px 4px; font-size: 11px; font-weight: 600;" onchange="updateBday(${idNum})">${yearOptions}</select>
-                    <select id="p${idNum}-bday-m" style="padding: 6px 4px; font-size: 11px; font-weight: 600;" onchange="updateBday(${idNum})">${monthOptions}</select>
-                    <select id="p${idNum}-bday-d" style="padding: 6px 4px; font-size: 11px; font-weight: 600;" onchange="updateBday(${idNum})">${dayOptions}</select>
-                </div>
+            <div class="form-group" style="margin-top: 6px;">
+                <label>Birth Date (I-click para sa Roleta)</label>
+                <input type="text" id="p${idNum}-bday-display" class="bday-trigger" readonly placeholder="YYYY-MM-DD" value="${bdayVal}" onclick="openCustomBdayPicker(${idNum})">
                 <input type="hidden" id="p${idNum}-bday" value="${bdayVal}">
             </div>
 
             <div class="form-group" style="margin-top: 6px;"><label>Address</label><input type="text" id="p${idNum}-address" value="${data[`p${idNum}-address`] || ''}"></div>
 
-            <span class="sub-category-title">Vitals & Consciousness</span>
-            <div class="form-group">
-                <div class="checkbox-group" style="grid-template-columns: repeat(4, 1fr);">
-                    <label class="checkbox-item"><input type="checkbox" class="p${idNum}-consciousness-cb" value="Alert"> Alert</label>
-                    <label class="checkbox-item"><input type="checkbox" class="p${idNum}-consciousness-cb" value="Verbal"> Verbal</label>
-                    <label class="checkbox-item"><input type="checkbox" class="p${idNum}-consciousness-cb" value="Pain"> Pain</label>
-                    <label class="checkbox-item"><input type="checkbox" class="p${idNum}-consciousness-cb" value="Unresponsive"> Unresp.</label>
+            <div class="collapse-header" style="cursor: default; background: transparent; border-left: none; padding: 2px 0; color: var(--primary); margin-top: 8px;">
+                <span>Vitals & Consciousness</span>
+            </div>
+            <div id="p${idNum}-vitalsContent" style="display: block;">
+                <div class="form-group">
+                    <div class="checkbox-group" style="grid-template-columns: repeat(4, 1fr);">
+                        <label class="checkbox-item"><input type="checkbox" class="p${idNum}-consciousness-cb" value="Alert"> Alert</label>
+                        <label class="checkbox-item"><input type="checkbox" class="p${idNum}-consciousness-cb" value="Verbal"> Verbal</label>
+                        <label class="checkbox-item"><input type="checkbox" class="p${idNum}-consciousness-cb" value="Pain"> Pain</label>
+                        <label class="checkbox-item"><input type="checkbox" class="p${idNum}-consciousness-cb" value="Unresponsive"> Unresp.</label>
+                    </div>
+                </div>
+                <div class="grid-6">
+                    <div class="form-group"><label>Time</label><input type="text" id="p${idNum}-v-time" class="time-trigger" readonly placeholder="--:--" value="${vTimeVal}" onclick="openCustomTimePicker('p${idNum}-v-time')"></div>
+                    <div class="form-group"><label>BP</label><input type="text" id="p${idNum}-v-bp" value="${data[`p${idNum}-v-bp`] || ''}" placeholder="120/80"></div>
+                    <div class="form-group"><label>RR</label><input type="text" id="p${idNum}-v-rr" value="${data[`p${idNum}-v-rr`] || ''}"></div>
+                    <div class="form-group"><label>PR</label><input type="text" id="p${idNum}-v-pr" value="${data[`p${idNum}-v-pr`] || ''}"></div>
+                    <div class="form-group"><label>Temp</label><input type="text" id="p${idNum}-v-temp" value="${data[`p${idNum}-v-temp`] || ''}"></div>
+                    <div class="form-group"><label>SPO2</label><input type="text" id="p${idNum}-v-spo2" value="${data[`p${idNum}-v-spo2`] || ''}"></div>
                 </div>
             </div>
-            <div class="grid-6">
-                <div class="form-group"><label>Time</label><input type="text" id="p${idNum}-v-time" value="${data[`p${idNum}-v-time`] || ''}" placeholder="--:--"></div>
-                <div class="form-group"><label>BP</label><input type="text" id="p${idNum}-v-bp" value="${data[`p${idNum}-v-bp`] || ''}" placeholder="120/80"></div>
-                <div class="form-group"><label>RR</label><input type="text" id="p${idNum}-v-rr" value="${data[`p${idNum}-v-rr`] || ''}"></div>
-                <div class="form-group"><label>PR</label><input type="text" id="p${idNum}-v-pr" value="${data[`p${idNum}-v-pr`] || ''}"></div>
-                <div class="form-group"><label>Temp</label><input type="text" id="p${idNum}-v-temp" value="${data[`p${idNum}-v-temp`] || ''}"></div>
-                <div class="form-group"><label>SPO2</label><input type="text" id="p${idNum}-v-spo2" value="${data[`p${idNum}-v-spo2`] || ''}"></div>
+
+            <div class="form-group" style="margin-top: 6px;">
+                <label>Assessment</label>
+                <textarea id="p${idNum}-assessment" placeholder="Assessment para sa pasyenteng ito...">${data[`p${idNum}-assessment`] || ''}</textarea>
+            </div>
+            <div class="form-group">
+                <label>Interventions</label>
+                <textarea id="p${idNum}-interventions" placeholder="Gawang aksyon o lunas...">${data[`p${idNum}-interventions`] || ''}</textarea>
             </div>
         `;
         return fieldset;
-    }
-
-    function updateBday(idNum) {
-        let y = document.getElementById(`p${idNum}-bday-y`).value;
-        let m = document.getElementById(`p${idNum}-bday-m`).value;
-        let d = document.getElementById(`p${idNum}-bday-d`).value;
-        document.getElementById(`p${idNum}-bday`).value = (y && m && d) ? `${y}-${m}-${d}` : '';
-        autoSaveData();
     }
 
     function addNewPatientSection(data = {}) {
@@ -976,11 +1512,24 @@
             const newId = index + 1;
             patientCount = newId;
             fs.setAttribute('data-patient-id', newId);
-            fs.querySelector('legend').innerHTML = `<div class="patient-card-header"><span>PATIENT ${newId} - INFO & VITALS</span>${newId > 1 ? '<button type="button" class="btn-remove-patient" onclick="removePatientSection(this)">🗑️ Tanggalin</button>' : ''}</div>`;
-            fs.querySelectorAll('input, select').forEach(input => {
+            fs.querySelector('legend').innerHTML = `<div class="patient-card-header"><span>👤 PATIENT ${newId} - INFO & VITALS</span>${newId > 1 ? '<button type="button" class="btn-remove-patient" onclick="removePatientSection(this)">🗑️ Tanggalin</button>' : ''}</div>`;
+            
+            const vitalsContentDiv = fs.querySelector('#p' + (newId-1) + '-vitalsContent') || fs.querySelector('[id$="-vitalsContent"]');
+            if(vitalsContentDiv) vitalsContentDiv.id = `p${newId}-vitalsContent`;
+
+            fs.querySelectorAll('input, select, textarea').forEach(input => {
                 let parts = input.id.split('-');
-                if (parts.length > 1) { parts[0] = `p${newId}`; input.id = parts.join('-'); }
+                if (parts.length > 1) { 
+                    parts[0] = `p${newId}`; 
+                    input.id = parts.join('-'); 
+                }
                 if (input.className.includes('-consciousness-cb')) input.className = `p${newId}-consciousness-cb`;
+                if (input.classList.contains('bday-trigger')) {
+                    input.setAttribute('onclick', `openCustomBdayPicker(${newId})`);
+                }
+                if (input.classList.contains('time-trigger') && input.id.includes('-v-time')) {
+                    input.setAttribute('onclick', `openCustomTimePicker('${input.id}')`);
+                }
             });
         });
     }
@@ -1001,7 +1550,7 @@
         fieldset.innerHTML = `
             <legend>
                 <div class="companion-card-header">
-                    <span>COMPANION ${idNum}</span>
+                    <span>👥 COMPANION ${idNum}</span>
                     ${removeBtnHtml}
                 </div>
             </legend>
@@ -1038,7 +1587,7 @@
             const newId = index + 1;
             companionCount = newId;
             fs.setAttribute('data-companion-id', newId);
-            fs.querySelector('legend').innerHTML = `<div class="companion-card-header"><span>COMPANION ${newId}</span>${newId > 1 ? '<button type="button" class="btn-remove-companion" onclick="removeCompanionSection(this)">🗑 Tanggalin</button>' : ''}</div>`;
+            fs.querySelector('legend').innerHTML = `<div class="companion-card-header"><span>👥 COMPANION ${newId}</span>${newId > 1 ? '<button type="button" class="btn-remove-companion" onclick="removeCompanionSection(this)">🗑 Tanggalin</button>' : ''}</div>`;
             fs.querySelectorAll('input, select').forEach(input => {
                 let parts = input.id.split('-');
                 if (parts.length > 1) { parts[0] = `c${newId}`; input.id = parts.join('-'); }
@@ -1048,7 +1597,7 @@
 
     function getFormDataObject() {
         const formData = {};
-        document.querySelectorAll('#pcrForm input[type="text"], #pcrForm input[type="number"], #pcrForm select, #pcrForm textarea, #pcrForm input[type="hidden"]').forEach(el => {
+        document.querySelectorAll('#pcrForm input[type="text"], #pcrForm input[type="number"], #pcrForm input[type="hidden"], #pcrForm select, #pcrForm textarea').forEach(el => {
             if (el.id) formData[el.id] = el.value;
         });
         const checkboxes = {};
@@ -1069,17 +1618,46 @@
         document.getElementById('companionsContainer').innerHTML = ''; companionCount = 0;
         for (let i = 1; i <= (formData._companionCount || 1); i++) addNewCompanionSection(formData);
 
-        document.querySelectorAll('#pcrForm input[type="text"], #pcrForm input[type="number"], #pcrForm select, #pcrForm textarea, #pcrForm input[type="hidden"]').forEach(el => {
+        document.querySelectorAll('#pcrForm input[type="text"], #pcrForm input[type="number"], #pcrForm input[type="hidden"], #pcrForm select, #pcrForm textarea').forEach(el => {
             if (el.id && formData[el.id] !== undefined) el.value = formData[el.id];
+        });
+
+        const ambVal = formData['e-ambulance'];
+        const ambSelect = document.getElementById('e-ambulance-select');
+        const ambInput = document.getElementById('e-ambulance');
+        if (ambVal === 'Ambulance 1' || ambVal === 'Ambulance 2') {
+            ambSelect.value = ambVal;
+            ambInput.style.display = 'none';
+        } else if (ambVal) {
+            ambSelect.value = 'Other';
+            ambInput.style.display = 'block';
+            ambInput.value = ambVal;
+        }
+
+        ['driver', 'tl', 'members'].forEach(staffKey => {
+            const val = formData[`e-${staffKey}`];
+            const selectElem = document.getElementById(`e-${staffKey}-select`);
+            const inputElem = document.getElementById(`e-${staffKey}`);
+            if (!selectElem) return;
+            let options = Array.from(selectElem.options).map(o => o.value);
+            if (options.includes(val)) {
+                selectElem.value = val;
+                inputElem.style.display = 'none';
+            } else if (val) {
+                selectElem.value = 'Other';
+                inputElem.style.display = 'block';
+                inputElem.value = val;
+            } else {
+                selectElem.value = '';
+                inputElem.style.display = 'none';
+            }
         });
 
         for (let i = 1; i <= (formData._patientCount || 1); i++) {
             let bdayVal = document.getElementById(`p${i}-bday`)?.value;
             if (bdayVal) {
-                let [y, m, d] = bdayVal.split('-');
-                if (y) document.getElementById(`p${i}-bday-y`).value = y;
-                if (m) document.getElementById(`p${i}-bday-m`).value = m;
-                if (d) document.getElementById(`p${i}-bday-d`).value = d;
+                let dispEl = document.getElementById(`p${i}-bday-display`);
+                if(dispEl) dispEl.value = bdayVal;
             }
         }
 
@@ -1089,6 +1667,8 @@
                 if (formData._checkboxes[key] !== undefined) cb.checked = formData._checkboxes[key];
             });
         }
+        updateOpCenLabel();
+        updateSuppliesLabel();
     }
 
     function autoSaveData() {
@@ -1101,9 +1681,12 @@
     function loadFromPhone() {
         const savedTheme = localStorage.getItem('mdrrmo_theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
-        document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️️ Light Mode' : '🌙 Dark Mode';
+        document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀ Light Mode' : '🌙 Dark Mode';
 
-        populateTimeSelectors();
+        initPopupWheel();
+        initBdayWheel();
+        initOpCenCheckboxes();
+        initSuppliesCheckboxes();
         updateRealTimeClock();
         setInterval(updateRealTimeClock, 1000);
         
@@ -1121,11 +1704,19 @@
         showCustomConfirm('Gusto mo bang linisin ang form para sa bagong entry?', 'BAGONG FORM', () => {
             localStorage.removeItem('mdrrmo_pcr_draft');
             document.getElementById('pcrForm').reset();
+            document.getElementById('e-ambulance').style.display = 'none';
+            document.getElementById('e-driver').style.display = 'none';
+            document.getElementById('e-tl').style.display = 'none';
+            document.getElementById('e-members').style.display = 'none';
             document.getElementById('patientsContainer').innerHTML = '';
             document.getElementById('companionsContainer').innerHTML = '';
             patientCount = 0; companionCount = 0;
             addNewPatientSection(); addNewCompanionSection();
             document.getElementById('messengerReportBox').style.display = 'none';
+            
+            document.querySelectorAll('.opcen-duty-cb, .supplies-item-cb, .nature-cb').forEach(cb => cb.checked = false);
+            updateOpCenLabel();
+            updateSuppliesLabel();
         });
     }
 
@@ -1208,7 +1799,6 @@
         const othersNature = document.getElementById('p-others-nature').value.trim();
         if (othersNature) natureList.push(othersNature);
 
-        // Header Title (Mas pinalinis ang disenyo na may divider lines)
         let reportTitle = natureList.some(n => n.toLowerCase().includes('accident')) ? "🚨 VEHICULAR ACCIDENT REPORT" : "🚨 MEDICAL INCIDENT REPORT";
         let headerLines = [
             `━━━━━━━━━━━━━━━━━━━━`,
@@ -1220,7 +1810,6 @@
         if (location) headerLines.push(`📍 *Location:* ${location}`);
         blocks.push(headerLines.join('\n'));
 
-        // Time & Team Logs
         let timeArr = [];
         let dispatchedVal = document.getElementById(`t-dispatched`).value.trim();
         if (dispatchedVal) timeArr.push(`• Dispatched: ${dispatchedVal}`);
@@ -1240,7 +1829,12 @@
             blocks.push(`⏰ *TIME LOGS*\n` + timeArr.join('\n'));
         }
 
-        // Patients Info
+        const rawNarrative = document.getElementById('p-narrative').value;
+        const formattedNarrative = autoFormatStory(rawNarrative);
+        if (formattedNarrative) {
+            blocks.push(`📋 *INCIDENT DETAILS*\n${formattedNarrative}`);
+        }
+
         for (let i = 1; i <= patientCount; i++) {
             const name = document.getElementById(`p${i}-name`)?.value.trim();
             if (!name) continue;
@@ -1251,7 +1845,7 @@
             pLines.push(`• Name: ${name}`);
             if (age || gender) pLines.push(`• Age/Gender: ${age ? age + ' yo' : ''} ${gender ? '(' + gender + ')' : ''}`.trim());
             
-            const bday = document.getElementById(`p${i}-bday`).value.trim();
+            const bday = document.getElementById(`p${i}-bday`)?.value.trim();
             const address = document.getElementById(`p${i}-address`).value.trim();
             if (bday) pLines.push(`• Birthdate: ${bday}`);
             if (address) pLines.push(`• Address: ${address}`);
@@ -1270,10 +1864,15 @@
             if (vitals.length > 0) {
                 pLines.push(`• Vitals${vTime ? ' (' + vTime + ')' : ''}:\n  ↳ ${vitals.join(' | ')}`);
             }
+
+            let assessmentVal = document.getElementById(`p${i}-assessment`)?.value.trim();
+            let interventionsVal = document.getElementById(`p${i}-interventions`)?.value.trim();
+            if (assessmentVal) pLines.push(`• Assessment:\n  ↳ ${assessmentVal}`);
+            if (interventionsVal) pLines.push(`• Interventions:\n  ↳ ${interventionsVal}`);
+
             blocks.push(pLines.join('\n'));
         }
 
-        // Companions Info
         let companionBlocks = [];
         for (let i = 1; i <= companionCount; i++) {
             const name = document.getElementById(`c${i}-name`)?.value.trim();
@@ -1291,35 +1890,15 @@
             blocks.push(`👥 *COMPANIONS*\n` + companionBlocks.join('\n'));
         }
 
-        // Nature of Event
         if (natureList.length > 0) {
             blocks.push(`🔍 *NATURE OF EVENT*\n• Type: ${natureList.join(', ')}`);
         }
 
-        // Incident Details / Narrative
-        const rawNarrative = document.getElementById('p-narrative').value;
-        const formattedNarrative = autoFormatStory(rawNarrative);
-        if (formattedNarrative) {
-            blocks.push(`📋 *INCIDENT DETAILS*\n${formattedNarrative}`);
-        }
-
-        // Assessment & Interventions
-        const assessment = document.getElementById('p-assessment').value.trim();
-        const interventions = document.getElementById('p-interventions').value.trim();
-        if (assessment || interventions) {
-            let actLines = [`🩺 *ASSESSMENT & INTERVENTIONS*`];
-            if (assessment) actLines.push(`• Assessment:\n${assessment}`);
-            if (interventions) actLines.push(`• Interventions:\n${interventions}`);
-            blocks.push(actLines.join('\n'));
-        }
-
-        // Responders & Vehicle
         let teamArr = [];
         let ambulanceVal = document.getElementById('e-ambulance').value.trim();
         let driverVal = document.getElementById('e-driver').value.trim();
         let resp1Val = document.getElementById('e-tl').value.trim();
         let resp2Val = document.getElementById('e-members').value.trim();
-        let suppliesVal = document.getElementById('e-supplies').value.trim();
 
         if (ambulanceVal) teamArr.push(`• Vehicle: ${ambulanceVal}`);
         if (driverVal) teamArr.push(`• Driver: ${driverVal}`);
@@ -1327,18 +1906,17 @@
         if (resp2Val) teamArr.push(`• Responder 2: ${resp2Val}`);
 
         let opcenDuties = [];
-        ['e-opcenduty1', 'e-opcenduty2', 'e-opcenduty3'].forEach(id => {
-            let val = document.getElementById(id).value.trim();
-            if (val) opcenDuties.push(val);
-        });
+        document.querySelectorAll('.opcen-duty-cb:checked').forEach(cb => opcenDuties.push(cb.value));
         if (opcenDuties.length > 0) teamArr.push(`• OpCen Duty: ${opcenDuties.join(', ')}`);
-        if (suppliesVal) teamArr.push(`• Supplies: ${suppliesVal}`);
+
+        let suppliesArr = [];
+        document.querySelectorAll('.supplies-item-cb:checked').forEach(cb => suppliesArr.push(cb.value));
+        if (suppliesArr.length > 0) teamArr.push(`• Supplies: ${suppliesArr.join(', ')}`);
 
         if (teamArr.length > 0) {
-            blocks.push(`👨‍🚒 *RESPONDERS DUTY*\n` + teamArr.join('\n'));
+            blocks.push(`👨🚒 *RESPONDERS DUTY*\n` + teamArr.join('\n'));
         }
 
-        // Closing Divider
         blocks.push(`━━━━━━━━━━━━━━━━━━━━`);
 
         document.getElementById('messengerText').value = blocks.join("\n\n");
