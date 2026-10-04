@@ -727,7 +727,7 @@
         const newTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         html.setAttribute('data-theme', newTheme);
         localStorage.setItem('mdrrmo_theme', newTheme);
-        document.getElementById('themeToggleBtn').innerText = newTheme === 'dark' ? '☀️️ Light Mode' : '🌙 Dark Mode';
+        document.getElementById('themeToggleBtn').innerText = newTheme === 'dark' ? '☀ Light Mode' : '🌙 Dark Mode';
     }
 
     function updateRealTimeClock() {
@@ -1101,7 +1101,7 @@
     function loadFromPhone() {
         const savedTheme = localStorage.getItem('mdrrmo_theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
-        document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+        document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️️ Light Mode' : '🌙 Dark Mode';
 
         populateTimeSelectors();
         updateRealTimeClock();
@@ -1208,36 +1208,49 @@
         const othersNature = document.getElementById('p-others-nature').value.trim();
         if (othersNature) natureList.push(othersNature);
 
-        let reportTitle = natureList.some(n => n.toLowerCase().includes('accident')) ? "VEHICULAR ACCIDENT REPORT" : "MEDICAL REPORT";
-        let headerText = reportTitle;
-        let meta = [];
-        if (date) meta.push(`Date: ${date}`);
-        if (pNo) meta.push(`Report No: ${pNo}`);
-        if (meta.length > 0) headerText += `\n${meta.join(' | ')}`;
-        blocks.push(headerText);
+        // Header Title (Mas pinalinis ang disenyo na may divider lines)
+        let reportTitle = natureList.some(n => n.toLowerCase().includes('accident')) ? "🚨 VEHICULAR ACCIDENT REPORT" : "🚨 MEDICAL INCIDENT REPORT";
+        let headerLines = [
+            `━━━━━━━━━━━━━━━━━━━━`,
+            `📌 *${reportTitle}*`,
+            `━━━━━━━━━━━━━━━━━━━━`
+        ];
+        if (date) headerLines.push(`📅 *Date:* ${date}`);
+        if (pNo) headerLines.push(`🔢 *Incident No:* ${pNo}`);
+        if (location) headerLines.push(`📍 *Location:* ${location}`);
+        blocks.push(headerLines.join('\n'));
 
+        // Time & Team Logs
         let timeArr = [];
         let dispatchedVal = document.getElementById(`t-dispatched`).value.trim();
-        if (dispatchedVal) timeArr.push(`  • Dispatched: ${dispatchedVal}`);
+        if (dispatchedVal) timeArr.push(`• Dispatched: ${dispatchedVal}`);
         
         ['onscene', 'facility', 'backopcen'].forEach(t => {
             let val = document.getElementById(`t-${t}`).value.trim();
-            if (val) timeArr.push(`  • ${t.charAt(0).toUpperCase() + t.slice(1)}: ${val}`);
+            if (val) {
+                let labelFormatted = t === 'onscene' ? 'On Scene' : t === 'facility' ? 'On Health Facility' : 'Back to OpCen';
+                timeArr.push(`• ${labelFormatted}: ${val}`);
+            }
         });
 
         let respondedTeamVal = document.getElementById(`e-respondedteam`).value.trim();
-        if (respondedTeamVal) timeArr.push(`  • Responded Team: ${respondedTeamVal}`);
+        if (respondedTeamVal) timeArr.push(`• Team: ${respondedTeamVal}`);
 
-        if (timeArr.length > 0 || location) {
-            let tText = timeArr.length > 0 ? `⏰ Time & Team Logs:\n` + timeArr.join('\n') : '';
-            if (location) tText += (tText ? `\n` : '') + `📍 Location: ${location}`;
-            blocks.push(tText);
+        if (timeArr.length > 0) {
+            blocks.push(`⏰ *TIME LOGS*\n` + timeArr.join('\n'));
         }
 
+        // Patients Info
         for (let i = 1; i <= patientCount; i++) {
             const name = document.getElementById(`p${i}-name`)?.value.trim();
             if (!name) continue;
-            let pLines = [`👤 Patient ${i}: ${name} (${document.getElementById(`p${i}-age`).value.trim()}, ${document.getElementById(`p${i}-gender`).value.trim()})`];
+            let age = document.getElementById(`p${i}-age`).value.trim();
+            let gender = document.getElementById(`p${i}-gender`).value.trim();
+            
+            let pLines = [`👤 *PATIENT ${i} DETAILS*`];
+            pLines.push(`• Name: ${name}`);
+            if (age || gender) pLines.push(`• Age/Gender: ${age ? age + ' yo' : ''} ${gender ? '(' + gender + ')' : ''}`.trim());
+            
             const bday = document.getElementById(`p${i}-bday`).value.trim();
             const address = document.getElementById(`p${i}-address`).value.trim();
             if (bday) pLines.push(`• Birthdate: ${bday}`);
@@ -1247,45 +1260,60 @@
             document.querySelectorAll(`.p${i}-consciousness-cb:checked`).forEach(cb => locList.push(cb.value));
             let vitals = [];
             if (locList.length > 0) vitals.push(`LOC: ${locList.join(', ')}`);
+            
             ['bp', 'pr', 'rr', 'spo2', 'temp'].forEach(v => {
                 let val = document.getElementById(`p${i}-v-${v}`).value.trim();
                 if (val) vitals.push(`${v.toUpperCase()}: ${val}`);
             });
-            if (vitals.length > 0) pLines.push(`• Vitals: ${vitals.join(' | ')}`);
+            
+            let vTime = document.getElementById(`p${i}-v-time`).value.trim();
+            if (vitals.length > 0) {
+                pLines.push(`• Vitals${vTime ? ' (' + vTime + ')' : ''}:\n  ↳ ${vitals.join(' | ')}`);
+            }
             blocks.push(pLines.join('\n'));
         }
 
+        // Companions Info
+        let companionBlocks = [];
         for (let i = 1; i <= companionCount; i++) {
             const name = document.getElementById(`c${i}-name`)?.value.trim();
             if (!name) continue;
-            let cLines = [`👥 Companion ${i}: ${name} (${document.getElementById(`c${i}-relation`).value.trim()})`];
-            let sub = [];
+            let relation = document.getElementById(`c${i}-relation`).value.trim();
+            let cLines = [`• Companion ${i}: ${name} ${relation ? '(' + relation + ')' : ''}`];
             let age = document.getElementById(`c${i}-age`).value.trim();
             let sex = document.getElementById(`c${i}-sex`).value.trim();
-            if (age) sub.push(age);
-            if (sex) sub.push(sex);
-            if (sub.length > 0) cLines.push(`• Age/Sex: ${sub.join(', ')}`);
             let address = document.getElementById(`c${i}-address`).value.trim();
-            if (address) cLines.push(`• Address: ${address}`);
-            blocks.push(cLines.join('\n'));
+            if (age || sex) cLines.push(`  Age/Sex: ${age ? age + ' yo' : ''} ${sex ? sex : ''}`.trim());
+            if (address) cLines.push(`  Address: ${address}`);
+            companionBlocks.push(cLines.join('\n'));
+        }
+        if (companionBlocks.length > 0) {
+            blocks.push(`👥 *COMPANIONS*\n` + companionBlocks.join('\n'));
         }
 
+        // Nature of Event
+        if (natureList.length > 0) {
+            blocks.push(`🔍 *NATURE OF EVENT*\n• Type: ${natureList.join(', ')}`);
+        }
+
+        // Incident Details / Narrative
         const rawNarrative = document.getElementById('p-narrative').value;
         const formattedNarrative = autoFormatStory(rawNarrative);
-        if (natureList.length > 0 || formattedNarrative) {
-            let ev = natureList.length > 0 ? `🚨 Nature of Event: ${natureList.join(', ')}` : '';
-            if (formattedNarrative) ev += (ev ? `\n\n` : '') + `📖 Incident Details:\n${formattedNarrative}`;
-            blocks.push(ev);
+        if (formattedNarrative) {
+            blocks.push(`📋 *INCIDENT DETAILS*\n${formattedNarrative}`);
         }
 
+        // Assessment & Interventions
         const assessment = document.getElementById('p-assessment').value.trim();
         const interventions = document.getElementById('p-interventions').value.trim();
         if (assessment || interventions) {
-            let act = assessment ? `🩺 Assessment: ${assessment}` : '';
-            if (interventions) act += (act ? `\n` : '') + `🛠️ Interventions: ${interventions}`;
-            blocks.push(act);
+            let actLines = [`🩺 *ASSESSMENT & INTERVENTIONS*`];
+            if (assessment) actLines.push(`• Assessment:\n${assessment}`);
+            if (interventions) actLines.push(`• Interventions:\n${interventions}`);
+            blocks.push(actLines.join('\n'));
         }
 
+        // Responders & Vehicle
         let teamArr = [];
         let ambulanceVal = document.getElementById('e-ambulance').value.trim();
         let driverVal = document.getElementById('e-driver').value.trim();
@@ -1293,7 +1321,7 @@
         let resp2Val = document.getElementById('e-members').value.trim();
         let suppliesVal = document.getElementById('e-supplies').value.trim();
 
-        if (ambulanceVal) teamArr.push(`• Ambulance / Vehicle Used: ${ambulanceVal}`);
+        if (ambulanceVal) teamArr.push(`• Vehicle: ${ambulanceVal}`);
         if (driverVal) teamArr.push(`• Driver: ${driverVal}`);
         if (resp1Val) teamArr.push(`• Responder 1: ${resp1Val}`);
         if (resp2Val) teamArr.push(`• Responder 2: ${resp2Val}`);
@@ -1304,9 +1332,14 @@
             if (val) opcenDuties.push(val);
         });
         if (opcenDuties.length > 0) teamArr.push(`• OpCen Duty: ${opcenDuties.join(', ')}`);
-        if (suppliesVal) teamArr.push(`• Supplies / Equipment Used: ${suppliesVal}`);
+        if (suppliesVal) teamArr.push(`• Supplies: ${suppliesVal}`);
 
-        if (teamArr.length > 0) blocks.push(`👨🚒 Responders Team:\n${teamArr.join('\n')}`);
+        if (teamArr.length > 0) {
+            blocks.push(`👨‍🚒 *RESPONDERS DUTY*\n` + teamArr.join('\n'));
+        }
+
+        // Closing Divider
+        blocks.push(`━━━━━━━━━━━━━━━━━━━━`);
 
         document.getElementById('messengerText').value = blocks.join("\n\n");
         const box = document.getElementById('messengerReportBox');
