@@ -250,6 +250,10 @@
             background: var(--card-bg);
             border-radius: 6px;
             border: 1px solid var(--border);
+            /* PINIGILAN ANG PULL-TO-REFRESH AT RUBBER-BAND SCROLL NG BUONG PAGE */
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
         }
 
         .wheel-column::-webkit-scrollbar {
@@ -537,6 +541,9 @@
             z-index: 10000;
             justify-content: center;
             align-items: center;
+            /* PINIGILAN ANG BODY SCROLL KAPAG BUKAS ANG MODAL */
+            overscroll-behavior: contain;
+            touch-action: none;
         }
         .custom-modal-card {
             background: var(--card-bg);
@@ -548,6 +555,7 @@
             text-align: center;
             color: var(--text-main);
             border: 1px solid var(--border);
+            touch-action: auto;
         }
         .custom-modal-title {
             font-size: 13px;
@@ -1911,7 +1919,7 @@
 
         let suppliesArr = [];
         document.querySelectorAll('.supplies-item-cb:checked').forEach(cb => suppliesArr.push(cb.value));
-        if (suppliesArr.length > 0) teamArr.push(`• Supplies: ${suppliesArr.join(', ')}`);
+        if (suppliesArr.length > 0) teamArr.push(`• Supplies used: ${suppliesArr.join(', ')}`);
 
         if (teamArr.length > 0) {
             blocks.push(`👨🚒 *RESPONDERS DUTY*\n` + teamArr.join('\n'));
