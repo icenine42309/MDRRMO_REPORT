@@ -2,7 +2,7 @@
 <html lang="fil" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cavinti-MDRRMO - INCIDENT REPORT</title>
     <style>
         [data-theme="dark"] {
@@ -24,11 +24,11 @@
             --save-text: #34d399;
             --save-border: #059669;
 
-            --sec-incident: #38bdf8;
-            --sec-patient: #a855f7;
-            --sec-companion: #ec4899;
-            --sec-nature: #f59e0b;
-            --sec-team: #10b981;
+            --sec-incident: #38bdf8;   
+            --sec-patient: #a855f7;    
+            --sec-companion: #ec4899;  
+            --sec-nature: #f59e0b;     
+            --sec-team: #10b981;       
         }
 
         [data-theme="light"] {
@@ -50,11 +50,11 @@
             --save-text: #166534;
             --save-border: #86efac;
 
-            --sec-incident: #0284c7;
-            --sec-patient: #9333ea;
-            --sec-companion: #db2777;
-            --sec-nature: #d97706;
-            --sec-team: #16a34a;
+            --sec-incident: #0284c7;   
+            --sec-patient: #9333ea;    
+            --sec-companion: #db2777;  
+            --sec-nature: #d97706;     
+            --sec-team: #16a34a;       
         }
 
         * {
@@ -64,17 +64,25 @@
             padding: 0;
         }
 
-        body {
+        html, body {
             background-color: var(--bg-color);
-            padding: 30px 10px 70px 10px;
             color: var(--text-main);
+            height: 100%;
+            overscroll-behavior-y: none; /* Tinatanggal ang pull-down to refresh at bounce effect */
+            touch-action: manipulation;
+            overflow-x: hidden;
+        }
+
+        body {
+            padding: 10px;
+            padding-bottom: 70px;
             transition: background-color 0.2s, color 0.2s;
-            overscroll-behavior-y: contain; 
+            overflow-y: auto;
         }
 
         .container {
             max-width: 820px;
-            margin: 15px auto 0 auto;
+            margin: 0 auto;
             background: var(--card-bg);
             padding: 16px;
             border-radius: 12px;
@@ -246,8 +254,6 @@
             border-radius: 6px;
             border: 1px solid var(--border);
             overscroll-behavior: contain;
-            -webkit-overflow-scrolling: touch;
-            touch-action: pan-y;
         }
 
         .wheel-column::-webkit-scrollbar {
@@ -386,6 +392,7 @@
             margin-top: 4px;
             max-height: 200px;
             overflow-y: auto;
+            overscroll-behavior: contain;
         }
         .custom-dropdown-list.show {
             display: block;
@@ -534,7 +541,6 @@
             justify-content: center;
             align-items: center;
             overscroll-behavior: contain;
-            touch-action: none;
         }
         .custom-modal-card {
             background: var(--card-bg);
@@ -546,7 +552,6 @@
             text-align: center;
             color: var(--text-main);
             border: 1px solid var(--border);
-            touch-action: auto;
         }
         .custom-modal-title {
             font-size: 13px;
@@ -603,7 +608,7 @@
         </div>
     </div>
 
-    <form id="pcrForm">
+    <form id="pcrForm" onsubmit="return false;">
         <div class="print-grid-main">
             <div class="left-col">
                 <fieldset class="section-incident">
@@ -869,7 +874,8 @@
                         <span>▼</span>
                     </div>
                     <div class="custom-dropdown-list" id="opcenDropdownList">
-                        <div class="checkbox-group" id="opcenDutyContainer" style="grid-template-columns: 1fr;"></div>
+                        <div class="checkbox-group" id="opcenDutyContainer" style="grid-template-columns: 1fr;">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -882,7 +888,8 @@
                         <span>▼</span>
                     </div>
                     <div class="custom-dropdown-list" id="suppliesDropdownList">
-                        <div class="checkbox-group" id="suppliesCheckboxContainer" style="grid-template-columns: 1fr;"></div>
+                        <div class="checkbox-group" id="suppliesCheckboxContainer" style="grid-template-columns: 1fr;">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -924,7 +931,6 @@
     </form>
 </div>
 
-<!-- MODALS -->
 <div id="msgModalOverlay" class="custom-modal-overlay">
     <div class="custom-modal-card">
         <div id="msgModalTitle" class="custom-modal-title">KOMPIRMASYON</div>
@@ -958,9 +964,9 @@
         <div class="wheel-container-box">
             <div class="wheel-highlight-bar"></div>
             <div class="time-picker-wrapper">
-                <div class="wheel-column" id="wheel-popup-h"><ul class="wheel-list" id="list-popup-h"></ul></div>
-                <div class="wheel-column" id="wheel-popup-m"><ul class="wheel-list" id="list-popup-m"></ul></div>
-                <div class="wheel-column" id="wheel-popup-ampm"><ul class="wheel-list" id="list-popup-ampm"></ul></div>
+                <div class="wheel-column" id="wheel-popup-h" onscroll="handlePopupWheelScroll('h')"><ul class="wheel-list" id="list-popup-h"></ul></div>
+                <div class="wheel-column" id="wheel-popup-m" onscroll="handlePopupWheelScroll('m')"><ul class="wheel-list" id="list-popup-m"></ul></div>
+                <div class="wheel-column" id="wheel-popup-ampm" onscroll="handlePopupWheelScroll('ampm')"><ul class="wheel-list" id="list-popup-ampm"></ul></div>
             </div>
         </div>
         <div class="modal-action-btns">
@@ -976,9 +982,9 @@
         <div class="wheel-container-box">
             <div class="wheel-highlight-bar"></div>
             <div class="time-picker-wrapper" style="grid-template-columns: 1.2fr 1.5fr 1fr;">
-                <div class="wheel-column" id="wheel-bday-y"><ul class="wheel-list" id="list-bday-y"></ul></div>
-                <div class="wheel-column" id="wheel-bday-m"><ul class="wheel-list" id="list-bday-m"></ul></div>
-                <div class="wheel-column" id="wheel-bday-d"><ul class="wheel-list" id="list-bday-d"></ul></div>
+                <div class="wheel-column" id="wheel-bday-y" onscroll="handleBdayWheelScroll('y')"><ul class="wheel-list" id="list-bday-y"></ul></div>
+                <div class="wheel-column" id="wheel-bday-m" onscroll="handleBdayWheelScroll('m')"><ul class="wheel-list" id="list-bday-m"></ul></div>
+                <div class="wheel-column" id="wheel-bday-d" onscroll="handleBdayWheelScroll('d')"><ul class="wheel-list" id="list-bday-d"></ul></div>
             </div>
         </div>
         <div class="modal-action-btns">
@@ -1222,39 +1228,10 @@
     }
 
     let activeTimeFieldKey = null;
-    let activeBdayPatientId = null;
-
     function initPopupWheel() {
         buildWheel('list-popup-h', 1, 12, (val) => val.toString());
         buildWheel('list-popup-m', 0, 59, (val) => val.toString().padStart(2, '0'));
         buildWheel('list-popup-ampm', ['AM', 'PM'], ['AM', 'PM'], (val) => val);
-        
-        setupWheelListeners('wheel-popup-h');
-        setupWheelListeners('wheel-popup-m');
-        setupWheelListeners('wheel-popup-ampm');
-    }
-
-    function initBdayWheel() {
-        buildWheel('list-bday-y', 1920, 2030, (val) => val.toString());
-        
-        const months = [
-            {v:'01', n:'Jan'}, {v:'02', n:'Feb'}, {v:'03', n:'Mar'}, {v:'04', n:'Apr'},
-            {v:'05', n:'May'}, {v:'06', n:'Jun'}, {v:'07', n:'Jul'}, {v:'08', n:'Aug'},
-            {v:'09', n:'Sep'}, {v:'10', n:'Oct'}, {v:'11', n:'Nov'}, {v:'12', n:'Dec'}
-        ];
-        const ulM = document.getElementById('list-bday-m');
-        if(ulM) {
-            let html = '<li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li><li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li>';
-            months.forEach(m => { html += `<li class="wheel-item" data-value="${m.v}">${m.n} (${m.v})</li>`; });
-            html += '<li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li><li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li>';
-            ulM.innerHTML = html;
-        }
-
-        buildWheel('list-bday-d', 1, 31, (val) => val.toString().padStart(2, '0'));
-
-        setupWheelListeners('wheel-bday-y');
-        setupWheelListeners('wheel-bday-m');
-        setupWheelListeners('wheel-bday-d');
     }
 
     function buildWheel(listId, startOrArr, endOrFormatter, formatter) {
@@ -1273,77 +1250,6 @@
         items.forEach(item => { html += `<li class="wheel-item" data-value="${item}">${item}</li>`; });
         html += '<li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li><li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li>';
         ul.innerHTML = html;
-    }
-
-    function setupWheelListeners(containerId) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        
-        let isScrolling;
-        container.addEventListener('scroll', function() {
-            window.clearTimeout(isScrolling);
-            isScrolling = setTimeout(function() {
-                snapToNearestItem(container);
-            }, 60);
-            updateWheelHighlight(container);
-        }, { passive: true });
-
-        container.addEventListener('touchstart', function(e) {
-            e.stopPropagation();
-        }, { passive: true });
-
-        container.addEventListener('touchmove', function(e) {
-            e.stopPropagation();
-        }, { passive: true });
-    }
-
-    function updateWheelHighlight(container) {
-        const items = container.querySelectorAll('.wheel-item');
-        const containerRect = container.getBoundingClientRect();
-        const containerCenter = containerRect.top + containerRect.height / 2;
-        let closestItem = null;
-        let minDistance = Infinity;
-
-        items.forEach(item => {
-            const rect = item.getBoundingClientRect();
-            const itemCenter = rect.top + rect.height / 2;
-            const distance = Math.abs(containerCenter - itemCenter);
-            if (distance < minDistance) {
-                minDistance = distance;
-                closestItem = item;
-            }
-        });
-
-        items.forEach(i => i.classList.remove('selected'));
-        if (closestItem && closestItem.getAttribute('data-value') !== "") {
-            closestItem.classList.add('selected');
-        }
-    }
-
-    function snapToNearestItem(container) {
-        const items = container.querySelectorAll('.wheel-item');
-        const containerRect = container.getBoundingClientRect();
-        const containerCenter = containerRect.top + containerRect.height / 2;
-        let closestItem = null;
-        let minDistance = Infinity;
-
-        items.forEach(item => {
-            const rect = item.getBoundingClientRect();
-            const itemCenter = rect.top + rect.height / 2;
-            const distance = Math.abs(containerCenter - itemCenter);
-            if (distance < minDistance) {
-                minDistance = distance;
-                closestItem = item;
-            }
-        });
-
-        if (closestItem) {
-            const targetScrollTop = closestItem.offsetTop - container.clientHeight / 2 + closestItem.clientHeight / 2;
-            container.scrollTo({
-                top: targetScrollTop,
-                behavior: 'smooth'
-            });
-        }
     }
 
     function openCustomTimePicker(fieldKey) {
@@ -1397,6 +1303,32 @@
         }
     }
 
+    function handlePopupWheelScroll(part) {
+        handleGenericWheelScroll(`wheel-popup-${part}`);
+    }
+
+    function handleGenericWheelScroll(containerId) {
+        const container = document.getElementById(containerId);
+        if(!container) return;
+        const items = container.querySelectorAll('.wheel-item');
+        const containerRect = container.getBoundingClientRect();
+        const containerCenter = containerRect.top + containerRect.height / 2;
+        let closestItem = null;
+        let minDistance = Infinity;
+
+        items.forEach(item => {
+            const rect = item.getBoundingClientRect();
+            const itemCenter = rect.top + rect.height / 2;
+            const distance = Math.abs(containerCenter - itemCenter);
+            if (distance < minDistance) { minDistance = distance; closestItem = item; }
+        });
+
+        items.forEach(i => i.classList.remove('selected'));
+        if (closestItem && closestItem.getAttribute('data-value') !== "") {
+            closestItem.classList.add('selected');
+        }
+    }
+
     function confirmTimePicker() {
         if (!activeTimeFieldKey) return;
         const getSelectedVal = (part) => {
@@ -1421,6 +1353,27 @@
 
     function closeTimePicker() { document.getElementById('timeModalOverlay').style.display = 'none'; activeTimeFieldKey = null; }
 
+    let activeBdayPatientId = null;
+
+    function initBdayWheel() {
+        buildWheel('list-bday-y', 1920, 2030, (val) => val.toString());
+        
+        const months = [
+            {v:'01', n:'Jan'}, {v:'02', n:'Feb'}, {v:'03', n:'Mar'}, {v:'04', n:'Apr'},
+            {v:'05', n:'May'}, {v:'06', n:'Jun'}, {v:'07', n:'Jul'}, {v:'08', n:'Aug'},
+            {v:'09', n:'Sep'}, {v:'10', n:'Oct'}, {v:'11', n:'Nov'}, {v:'12', n:'Dec'}
+        ];
+        const ulM = document.getElementById('list-bday-m');
+        if(ulM) {
+            let html = '<li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li><li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li>';
+            months.forEach(m => { html += `<li class="wheel-item" data-value="${m.v}">${m.n} (${m.v})</li>`; });
+            html += '<li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li><li class="wheel-item" data-value="" style="opacity:0; pointer-events:none;">&nbsp;</li>';
+            ulM.innerHTML = html;
+        }
+
+        buildWheel('list-bday-d', 1, 31, (val) => val.toString().padStart(2, '0'));
+    }
+
     function openCustomBdayPicker(idNum) {
         activeBdayPatientId = idNum;
         document.getElementById('bdayModalOverlay').style.display = 'flex';
@@ -1431,6 +1384,10 @@
             scrollToPopupValue('m', m || '01', 'wheel-bday-m');
             scrollToPopupValue('d', d || '01', 'wheel-bday-d');
         }, 50);
+    }
+
+    function handleBdayWheelScroll(part) {
+        handleGenericWheelScroll(`wheel-bday-${part}`);
     }
 
     function confirmBdayPicker() {
@@ -1735,9 +1692,6 @@
             addNewCompanionSection();
         }
         renderHistoryTable();
-
-        // Naka-scroll ng konti pababa pagka-open ng app
-        window.scrollTo({ top: 120, behavior: 'instant' });
     }
 
     function clearSavedData() {
