@@ -24,12 +24,11 @@
             --save-text: #34d399;
             --save-border: #059669;
 
-            /* Distinct Section Border Colors (Dark Mode) */
-            --sec-incident: #38bdf8;   /* Sky Blue */
-            --sec-patient: #a855f7;    /* Purple */
-            --sec-companion: #ec4899;  /* Pink */
-            --sec-nature: #f59e0b;     /* Amber */
-            --sec-team: #10b981;       /* Emerald Green */
+            --sec-incident: #38bdf8;
+            --sec-patient: #a855f7;
+            --sec-companion: #ec4899;
+            --sec-nature: #f59e0b;
+            --sec-team: #10b981;
         }
 
         [data-theme="light"] {
@@ -51,12 +50,11 @@
             --save-text: #166534;
             --save-border: #86efac;
 
-            /* Distinct Section Border Colors (Light Mode) */
-            --sec-incident: #0284c7;   /* Blue */
-            --sec-patient: #9333ea;    /* Purple */
-            --sec-companion: #db2777;  /* Pink */
-            --sec-nature: #d97706;     /* Amber */
-            --sec-team: #16a34a;       /* Green */
+            --sec-incident: #0284c7;
+            --sec-patient: #9333ea;
+            --sec-companion: #db2777;
+            --sec-nature: #d97706;
+            --sec-team: #16a34a;
         }
 
         * {
@@ -68,15 +66,15 @@
 
         body {
             background-color: var(--bg-color);
-            padding: 10px;
-            padding-bottom: 70px;
+            padding: 20px 10px 70px 10px; /* Dinagdagan ang top padding para hindi sumagad sa pinakataas at iwas refresh */
             color: var(--text-main);
             transition: background-color 0.2s, color 0.2s;
+            overscroll-behavior-y: contain; /* Pinipigilan ang pull-to-refresh ng browser */
         }
 
         .container {
             max-width: 820px;
-            margin: 0 auto;
+            margin: 10px auto 0 auto; /* Nilagyan ng margin-top para may espasyo sa itaas */
             background: var(--card-bg);
             padding: 16px;
             border-radius: 12px;
@@ -149,7 +147,6 @@
             background: var(--input-bg);
         }
 
-        /* SECTION FIELDSET BASE WITH COLOR CODING */
         fieldset {
             border: 1.5px solid var(--border);
             border-radius: 8px;
@@ -158,7 +155,6 @@
             background-color: var(--field-bg);
         }
 
-        /* Specific Section Borders */
         .section-incident { border-color: var(--sec-incident); }
         .section-incident legend { color: var(--sec-incident); }
 
@@ -227,7 +223,6 @@
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
 
-        /* PHONE WHEEL PICKER POPUP STYLES */
         .time-picker-wrapper {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -302,7 +297,6 @@
             border-radius: 4px;
         }
 
-        /* COLLAPSIBLE CATEGORY ACCORDION STYLES */
         .collapse-header {
             color: var(--primary);
             font-size: 11px;
@@ -358,7 +352,6 @@
             cursor: pointer;
         }
 
-        /* CUSTOM DROPDOWN ACCORDION STYLES */
         .custom-dropdown-container {
             position: relative;
             width: 100%;
@@ -684,7 +677,6 @@
                 <fieldset class="section-nature">
                     <legend>🔍 NATURE AND TYPE OF EVENT</legend>
                     
-                    <!-- ACCIDENT SECTION -->
                     <div class="collapse-header" onclick="toggleSection('collapseAccident')">
                         <span>🚗 Accident</span>
                         <span id="icon-collapseAccident">▼</span>
@@ -705,7 +697,6 @@
                         </div>
                     </div>
 
-                    <!-- MEDICAL SECTION -->
                     <div class="collapse-header" onclick="toggleSection('collapseMedical')">
                         <span>🏥 Medical</span>
                         <span id="icon-collapseMedical">▼</span>
@@ -748,7 +739,6 @@
                         </div>
                     </div>
 
-                    <!-- CRIME & DISASTER SECTION -->
                     <div class="collapse-header" onclick="toggleSection('collapseCrime')">
                         <span>🚨 Crime & Disaster</span>
                         <span id="icon-collapseCrime">▼</span>
@@ -962,7 +952,6 @@
     </div>
 </div>
 
-<!-- TIME PICKER MODAL -->
 <div id="timeModalOverlay" class="custom-modal-overlay">
     <div class="custom-modal-card" style="max-width: 280px;">
         <div class="custom-modal-title" id="timeModalTitle">PILIIN ANG ORAS</div>
@@ -981,7 +970,6 @@
     </div>
 </div>
 
-<!-- BDAY WHEEL PICKER MODAL -->
 <div id="bdayModalOverlay" class="custom-modal-overlay">
     <div class="custom-modal-card" style="max-width: 300px;">
         <div class="custom-modal-title">PILIIN ANG BIRTHDAY (Year - Month - Day)</div>
@@ -1233,7 +1221,6 @@
         selectedDateStr = "";
     }
 
-    // ROBUST WHEEL PICKER LOGIC FOR MOBILE & ACODE
     let activeTimeFieldKey = null;
     let activeBdayPatientId = null;
 
@@ -1301,7 +1288,6 @@
             updateWheelHighlight(container);
         }, { passive: true });
 
-        // Pigilan ang page refresh/pull-to-refresh habang nagpapatakbo ng touch sa roleta
         container.addEventListener('touchstart', function(e) {
             e.stopPropagation();
         }, { passive: true });
