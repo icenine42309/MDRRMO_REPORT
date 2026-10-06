@@ -68,8 +68,7 @@
 
         body {
             background-color: var(--bg-color);
-            padding: 10px;
-            padding-bottom: 70px;
+            padding: 24px 10px 70px 10px; /* Binigyan ng sapat na space sa taas para kita agad ang header */
             color: var(--text-main);
             transition: background-color 0.2s, color 0.2s;
         }
@@ -1699,8 +1698,7 @@
         }
         renderHistoryTable();
 
-        // Nakascroll down na agad nang konti pagka-open
-        window.scrollTo({ top: 120, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function clearSavedData() {
