@@ -2,7 +2,7 @@
 <html lang="fil" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cavinti-MDRRMO - INCIDENT REPORT</title>
     <style>
         [data-theme="dark"] {
@@ -24,11 +24,12 @@
             --save-text: #34d399;
             --save-border: #059669;
 
-            --sec-incident: #38bdf8;   
-            --sec-patient: #a855f7;    
-            --sec-companion: #ec4899;  
-            --sec-nature: #f59e0b;     
-            --sec-team: #10b981;       
+            /* Distinct Section Border Colors (Dark Mode) */
+            --sec-incident: #38bdf8;   /* Sky Blue */
+            --sec-patient: #a855f7;    /* Purple */
+            --sec-companion: #ec4899;  /* Pink */
+            --sec-nature: #f59e0b;     /* Amber */
+            --sec-team: #10b981;       /* Emerald Green */
         }
 
         [data-theme="light"] {
@@ -50,11 +51,12 @@
             --save-text: #166534;
             --save-border: #86efac;
 
-            --sec-incident: #0284c7;   
-            --sec-patient: #9333ea;    
-            --sec-companion: #db2777;  
-            --sec-nature: #d97706;     
-            --sec-team: #16a34a;       
+            /* Distinct Section Border Colors (Light Mode) */
+            --sec-incident: #0284c7;   /* Blue */
+            --sec-patient: #9333ea;    /* Purple */
+            --sec-companion: #db2777;  /* Pink */
+            --sec-nature: #d97706;     /* Amber */
+            --sec-team: #16a34a;       /* Green */
         }
 
         * {
@@ -64,20 +66,12 @@
             padding: 0;
         }
 
-        html, body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            height: 100%;
-            overscroll-behavior-y: none; /* Tinatanggal ang pull-down to refresh at bounce effect */
-            touch-action: manipulation;
-            overflow-x: hidden;
-        }
-
         body {
+            background-color: var(--bg-color);
             padding: 10px;
             padding-bottom: 70px;
+            color: var(--text-main);
             transition: background-color 0.2s, color 0.2s;
-            overflow-y: auto;
         }
 
         .container {
@@ -155,6 +149,7 @@
             background: var(--input-bg);
         }
 
+        /* SECTION FIELDSET BASE WITH COLOR CODING */
         fieldset {
             border: 1.5px solid var(--border);
             border-radius: 8px;
@@ -163,6 +158,7 @@
             background-color: var(--field-bg);
         }
 
+        /* Specific Section Borders */
         .section-incident { border-color: var(--sec-incident); }
         .section-incident legend { color: var(--sec-incident); }
 
@@ -231,6 +227,7 @@
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
 
+        /* PHONE WHEEL PICKER POPUP STYLES */
         .time-picker-wrapper {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -253,7 +250,6 @@
             background: var(--card-bg);
             border-radius: 6px;
             border: 1px solid var(--border);
-            overscroll-behavior: contain;
         }
 
         .wheel-column::-webkit-scrollbar {
@@ -303,6 +299,7 @@
             border-radius: 4px;
         }
 
+        /* COLLAPSIBLE CATEGORY ACCORDION STYLES */
         .collapse-header {
             color: var(--primary);
             font-size: 11px;
@@ -358,6 +355,7 @@
             cursor: pointer;
         }
 
+        /* CUSTOM DROPDOWN ACCORDION STYLES */
         .custom-dropdown-container {
             position: relative;
             width: 100%;
@@ -392,7 +390,6 @@
             margin-top: 4px;
             max-height: 200px;
             overflow-y: auto;
-            overscroll-behavior: contain;
         }
         .custom-dropdown-list.show {
             display: block;
@@ -540,7 +537,6 @@
             z-index: 10000;
             justify-content: center;
             align-items: center;
-            overscroll-behavior: contain;
         }
         .custom-modal-card {
             background: var(--card-bg);
@@ -608,7 +604,7 @@
         </div>
     </div>
 
-    <form id="pcrForm" onsubmit="return false;">
+    <form id="pcrForm">
         <div class="print-grid-main">
             <div class="left-col">
                 <fieldset class="section-incident">
@@ -682,6 +678,7 @@
                 <fieldset class="section-nature">
                     <legend>🔍 NATURE AND TYPE OF EVENT</legend>
                     
+                    <!-- ACCIDENT SECTION -->
                     <div class="collapse-header" onclick="toggleSection('collapseAccident')">
                         <span>🚗 Accident</span>
                         <span id="icon-collapseAccident">▼</span>
@@ -702,6 +699,7 @@
                         </div>
                     </div>
 
+                    <!-- MEDICAL SECTION -->
                     <div class="collapse-header" onclick="toggleSection('collapseMedical')">
                         <span>🏥 Medical</span>
                         <span id="icon-collapseMedical">▼</span>
@@ -744,6 +742,7 @@
                         </div>
                     </div>
 
+                    <!-- CRIME & DISASTER SECTION -->
                     <div class="collapse-header" onclick="toggleSection('collapseCrime')">
                         <span>🚨 Crime & Disaster</span>
                         <span id="icon-collapseCrime">▼</span>
@@ -875,6 +874,7 @@
                     </div>
                     <div class="custom-dropdown-list" id="opcenDropdownList">
                         <div class="checkbox-group" id="opcenDutyContainer" style="grid-template-columns: 1fr;">
+                            <!-- Auto-populated via script -->
                         </div>
                     </div>
                 </div>
@@ -889,6 +889,7 @@
                     </div>
                     <div class="custom-dropdown-list" id="suppliesDropdownList">
                         <div class="checkbox-group" id="suppliesCheckboxContainer" style="grid-template-columns: 1fr;">
+                            <!-- Auto-populated via script -->
                         </div>
                     </div>
                 </div>
@@ -931,6 +932,7 @@
     </form>
 </div>
 
+<!-- MODALS -->
 <div id="msgModalOverlay" class="custom-modal-overlay">
     <div class="custom-modal-card">
         <div id="msgModalTitle" class="custom-modal-title">KOMPIRMASYON</div>
@@ -958,6 +960,7 @@
     </div>
 </div>
 
+<!-- TIME PICKER MODAL -->
 <div id="timeModalOverlay" class="custom-modal-overlay">
     <div class="custom-modal-card" style="max-width: 280px;">
         <div class="custom-modal-title" id="timeModalTitle">PILIIN ANG ORAS</div>
@@ -976,6 +979,7 @@
     </div>
 </div>
 
+<!-- BDAY WHEEL PICKER MODAL -->
 <div id="bdayModalOverlay" class="custom-modal-overlay">
     <div class="custom-modal-card" style="max-width: 300px;">
         <div class="custom-modal-title">PILIIN ANG BIRTHDAY (Year - Month - Day)</div>
@@ -1227,6 +1231,7 @@
         selectedDateStr = "";
     }
 
+    // TIME WHEEL PICKER
     let activeTimeFieldKey = null;
     function initPopupWheel() {
         buildWheel('list-popup-h', 1, 12, (val) => val.toString());
@@ -1353,6 +1358,7 @@
 
     function closeTimePicker() { document.getElementById('timeModalOverlay').style.display = 'none'; activeTimeFieldKey = null; }
 
+    // BIRTHDAY WHEEL PICKER (1920 to 2030)
     let activeBdayPatientId = null;
 
     function initBdayWheel() {
@@ -1692,6 +1698,9 @@
             addNewCompanionSection();
         }
         renderHistoryTable();
+
+        // Nakascroll down na agad nang konti pagka-open
+        window.scrollTo({ top: 120, behavior: 'smooth' });
     }
 
     function clearSavedData() {
